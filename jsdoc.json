@@ -1,0 +1,19 @@
+{
+    "opts": {
+        "encoding": "utf8",
+        "destination": "./docs/",
+        "recurse": true,
+        "template": "node_modules/@escommunity/minami"
+    },
+    "source": {
+        "include": [
+            "index.js"
+        ],
+        "exclude": [
+            "node_modules",
+            "client"
+        ],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    }
+}

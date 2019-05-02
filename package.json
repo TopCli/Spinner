@@ -1,0 +1,56 @@
+{
+    "name": "@slimio/async-cli-spinner",
+    "version": "0.1.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "prepublishOnly": "pkg-ok",
+        "test": "ava --verbose",
+        "doc": "jsdoc -c ./jsdoc.json -r -R ./README.md -P ./package.json --verbose",
+        "coverage": "c8 -r=\"html\" npm test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SlimIO/async-cli-spinner.git"
+    },
+    "keywords": [],
+    "author": "SlimIO",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/SlimIO/async-cli-spinner/issues"
+    },
+    "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
+    "dependencies": {},
+    "devDependencies": {
+        "@commitlint/cli": "^7.5.2",
+        "@commitlint/config-conventional": "^7.5.0",
+        "@escommunity/minami": "^1.0.0",
+        "@slimio/eslint-config": "^2.0.4",
+        "@types/node": "^11.13.8",
+        "ava": "^1.4.1",
+        "eslint": "^5.16.0",
+        "husky": "^2.2.0",
+        "jsdoc": "^3.5.5",
+        "pkg-ok": "^2.3.1",
+        "c8": "^4.0.0",
+        "dotenv": "^7.0.0"
+    },
+    "engines": {
+        "node": ">=10"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "npm test",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "nyc": {
+        "check-coverage": true,
+        "per-file": false,
+        "lines": 98,
+        "statements": 98,
+        "functions": 98,
+        "branches": 90
+    }
+}
