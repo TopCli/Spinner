@@ -1,50 +1,68 @@
-const cliSpinners = require("cli-spinners");
 const Spinner = require("./src/spinner.class.js");
+const cliCursor = require("cli-cursor");
+
+// CONSTANT
+const LINE_JUMP = 1;
 
 /* eslint-disable no-loop-func */
 async function startAll(array) {
     let started = 0;
     let finished = 0;
-    let succeeded = 0;
+    let succeed = 0;
     let failed = 0;
+
+
     function writeRecap() {
         const col = process.stdout.columns;
         const recap = `${finished} / ${array.length} : with ${failed} failed`;
         const displayRecap = recap.length > col ? recap.slice(0, col) : recap;
-        process.stdout.moveCursor(0, 2);
+
+        process.stdout.moveCursor(0, LINE_JUMP);
         process.stdout.clearLine();
         process.stdout.write(displayRecap);
-        process.stdout.moveCursor(-recap.length, -2);
+        process.stdout.moveCursor(-displayRecap.length, -LINE_JUMP);
     }
+
 
     Spinner.emitter.on("start", () => {
         started++;
         if (started === array.length) {
+            for (let ind = 1; ind <= LINE_JUMP; ind++) {
+                console.log();
+            }
+            process.stdout.moveCursor(0, -LINE_JUMP);
             writeRecap();
         }
     });
-    Spinner.emitter.on("success", () => {
+
+    Spinner.emitter.on("succeed", () => {
         finished++;
-        succeeded++;
-        writeRecap();
+        succeed++;
+
+        if (started === array.length) {
+            writeRecap();
+        }
 
         if (finished === array.length) {
-            process.stdout.moveCursor(0, 3);
+            process.stdout.moveCursor(0, LINE_JUMP);
         }
     });
-    Spinner.emitter.on("fail", () => {
+
+    Spinner.emitter.on("failed", () => {
         finished++;
         failed++;
-        writeRecap();
+
+        if (started === array.length) {
+            writeRecap();
+        }
 
         if (finished === array.length) {
-            process.stdout.moveCursor(0, 3);
+            process.stdout.moveCursor(0, LINE_JUMP);
         }
     });
 
-    // console.log();
-    // console.log(`${finished} / ${array.length}`);
     const results = await Promise.all(array);
+    cliCursor.show();
 
     return results;
 }

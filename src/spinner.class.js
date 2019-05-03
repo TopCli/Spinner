@@ -2,24 +2,37 @@
 const is = require("@slimio/is");
 const cliSpinners = require("cli-spinners");
 const SafeEmitter = require("@slimio/safe-emitter");
+const logSymbols = require("log-symbols");
+const cliCursor = require("cli-cursor");
 
 // CONSTANT
-const DEFAULT_SPINNER = "dots";
+const DEFAULT_SPINNER = "line";
 
-const SPINNER = Symbol("spinner");
-const PREFIX_TEXT = Symbol("prefixText");
-const TEXT = Symbol("text");
+// Symbol
+const symSpinner = Symbol("spinner");
+const symPrefixText = Symbol("prefixText");
+const symText = Symbol("text");
 
 /**
  * @class Spinner
  *
- * @property {String} prefixText
+ * @property {String} prefixText Spinner prefix text
+ * @property {String} text Spinner text
+ * @property {SafeEmitter} emitter Emitter
+ * @property {Boolean} started Spinner is started
+ * @property {Stream} stream Spinner TTY stream
+ * @property {Number} frameIndex Spinner frameIndex
  */
 class Spinner {
     /**
      * @constructor
      * @memberof #Spinner
      * @param {Object} options options
+     * @param {Object|String} options.spinner Object for custom or string to get from cli-spinner
+     * @param {String[]} options.spinner.frames String array of differente spinner frames
+     * @param {Number} options.spinner.interval Interval between each frames in ms
+     * @param {String} options.prefixText String spinner prefix text to display
+     * @param {String} options.text Spinner text to display
      */
     constructor(options = Object.create(null)) {
         this.emitter = new SafeEmitter();
@@ -32,44 +45,42 @@ class Spinner {
         this.emitter.once("start").then(() => {
             this.spinnerPos = Spinner.count;
             Spinner.count++;
-
-            return void 0;
         });
     }
 
     /**
      * @public
      * @memberof Spinner#
-     * @param {String} value text value
+     * @param {String} value Spinner text
      */
     set text(value) {
         if (!is.string(value)) {
             throw new TypeError("text must be a type of string");
         }
-        this[TEXT] = value;
+        this[symText] = value;
     }
 
     /**
      *
      */
     get text() {
-        return this[TEXT];
+        return this[symText];
     }
 
     /**
      * @public
      * @memberof Spinner#
-     * @param {String} value prefixText value
+     * @param {String} value Spinner prefix text
      */
     set prefixText(value) {
-        this[PREFIX_TEXT] = is.string(value) ? `${value} - ` : "";
+        this[symPrefixText] = is.string(value) ? `${value} - ` : "";
     }
 
     /**
      *
      */
     get prefixText() {
-        return this[PREFIX_TEXT];
+        return this[symPrefixText];
     }
 
     /**
@@ -85,18 +96,18 @@ class Spinner {
             if (is.nullOrUndefined(value.interval)) {
                 throw new Error("Spinner object must have an interval property");
             }
-            this[SPINNER] = value;
+            this[symSpinner] = value;
         }
 
         if (process.platform === "win32") {
-            this[SPINNER] = cliSpinners[DEFAULT_SPINNER];
+            this[symSpinner] = cliSpinners[DEFAULT_SPINNER];
         }
         else if (is.nullOrUndefined(value)) {
-            this[SPINNER] = cliSpinners.dots;
+            this[symSpinner] = cliSpinners.dots;
         }
         else if (is.string(value)) {
             if (cliSpinners[value]) {
-                this[SPINNER] = cliSpinners[value];
+                this[symSpinner] = cliSpinners[value];
             }
             else {
                 throw new Error(`There is no built-in spinner named '${value}'. See "cli-spinners" from sindresorhus for a full list.`);
@@ -105,32 +116,57 @@ class Spinner {
         else {
             throw new TypeError("spinner must be a type of string|object|undefined");
         }
+        this.frameIndex = 0;
     }
 
     /**
      *
      */
     get spinner() {
-        return this[SPINNER];
+        return this[symSpinner];
     }
 
     /**
-     *
-     * @param {Number} frameIndex frameIndex
+     * @method lineToRender
+     * @memberof Spinner#
+     * @param {Object} options options
      *
      * @return {String}
      */
-    renderLine() {
+    lineToRender(options = Object.create(null)) {
         const terminalCol = this.stream.columns;
 
-        const { frames } = this.spinner;
-        const frame = frames[this.frameIndex];
-        this.frameIndex = ++this.frameIndex < frames.length ? this.frameIndex : 0;
+        let frame;
+        if (is.nullOrUndefined(options.symbol)) {
+            const { frames } = this.spinner;
+            frame = frames[this.frameIndex];
+            this.frameIndex = ++this.frameIndex < frames.length ? this.frameIndex : 0;
+        }
+        else {
+            frame = options.symbol;
+        }
 
         const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
-        const displayRaw = defaultRaw.length > terminalCol ? defaultRaw.slice(0, terminalCol) : defaultRaw;
 
-        return displayRaw;
+        return defaultRaw.length > terminalCol ? defaultRaw.slice(0, terminalCol) : defaultRaw;
+    }
+
+    /**
+     * @method renderLine
+     * @memberof Spinner#
+     * @param {Object} options options
+     *
+     * @return {void}
+     */
+    renderLine(options) {
+        const moveCursorPos = Spinner.count - this.spinnerPos;
+        this.stream.moveCursor(0, -moveCursorPos);
+        this.stream.clearLine();
+
+        const line = this.lineToRender(options);
+        this.stream.write(line);
+
+        this.stream.moveCursor(-line.length, moveCursorPos);
     }
 
     /**
@@ -142,67 +178,68 @@ class Spinner {
      */
     start(text) {
         if (!is.nullOrUndefined(text)) {
-            this[TEXT] = text;
+            this[symText] = text;
         }
         this.started = true;
+        cliCursor.hide();
 
         this.emitter.emit("start");
-        Spinner.emitter.emit("start");
+
+        setImmediate(() => {
+            Spinner.emitter.emit("start");
+        });
 
         this.frameIndex = 0;
-        console.log(this.renderLine());
-        this.interval = setInterval(() => {
-            // move terminal cursor to line
-            const moveCursorPos = Spinner.count - this.spinnerPos;
-            this.stream.moveCursor(0, -moveCursorPos);
-            this.stream.clearLine();
-
-            const line = this.renderLine();
-            this.stream.write(line);
-            this.stream.moveCursor(-line.length, 0);
-
-            // move terminal cursor to the end
-            this.stream.moveCursor(0, moveCursorPos);
-        }, this.spinner.interval);
+        console.log(this.lineToRender());
+        this.interval = setInterval(this.renderLine.bind(this), this.spinner.interval);
 
         return this;
     }
 
     /**
-     * @method succeed
+     * @method start
      * @memberof Spinner#
-     * @param {String} text text
+     * @param {String} text Spinner text
      *
      * @return {void}
      */
-    succeed(text = "Success") {
+    stop(text) {
         if (this.started === false) {
             return;
         }
 
         if (!is.nullOrUndefined(text)) {
-            this[TEXT] = text;
+            this[symText] = text;
         }
+        this.started = false;
+
         clearInterval(this.interval);
-        Spinner.emitter.emit("success", this);
     }
 
     /**
-     * @method fail
+     * @method succeed
      * @memberof Spinner#
-     * @param {String} text text
+     * @param {String} text Spinner text
      *
      * @return {void}
      */
-    fail(text = "Fail") {
-        if (this.started === false) {
-            return;
-        }
-        if (!is.nullOrUndefined(text)) {
-            this[TEXT] = text;
-        }
-        clearInterval(this.interval);
-        Spinner.emitter.emit("fail", this);
+    succeed(text) {
+        this.stop(text);
+        this.renderLine({ symbol: logSymbols.success, text });
+        Spinner.emitter.emit("succeed");
+    }
+
+    /**
+     * @method failed
+     * @memberof Spinner#
+     * @param {String} text Spinner text
+     *
+     * @return {void}
+     */
+    failed(text) {
+        this.stop(text);
+        this.renderLine({ symbol: logSymbols.error, text });
+        Spinner.emitter.emit("failed");
     }
 }
 

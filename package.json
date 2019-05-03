@@ -22,6 +22,7 @@
     },
     "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
     "dependencies": {
+        "cli-cursor": "^3.0.0",
         "log-symbols": "^3.0.0"
     },
     "devDependencies": {
