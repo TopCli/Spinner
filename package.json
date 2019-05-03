@@ -21,7 +21,9 @@
         "url": "https://github.com/SlimIO/async-cli-spinner/issues"
     },
     "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
-    "dependencies": {},
+    "dependencies": {
+        "log-symbols": "^3.0.0"
+    },
     "devDependencies": {
         "@commitlint/cli": "^7.5.2",
         "@commitlint/config-conventional": "^7.5.0",

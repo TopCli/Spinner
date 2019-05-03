@@ -115,6 +115,25 @@ class Spinner {
     }
 
     /**
+     *
+     * @param {Number} frameIndex frameIndex
+     *
+     * @return {String}
+     */
+    renderLine() {
+        const terminalCol = this.stream.columns;
+
+        const { frames } = this.spinner;
+        const frame = frames[this.frameIndex];
+        this.frameIndex = ++this.frameIndex < frames.length ? this.frameIndex : 0;
+
+        const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
+        const displayRaw = defaultRaw.length > terminalCol ? defaultRaw.slice(0, terminalCol) : defaultRaw;
+
+        return displayRaw;
+    }
+
+    /**
      * @method start
      * @memberof Spinner#
      * @param {String} text text
@@ -122,35 +141,25 @@ class Spinner {
      * @return {void}
      */
     start(text) {
+        if (!is.nullOrUndefined(text)) {
+            this[TEXT] = text;
+        }
         this.started = true;
+
         this.emitter.emit("start");
         Spinner.emitter.emit("start");
-        let frameIndex = 0;
 
-        const terminalCol = this.stream.columns;
-
-        const { frames } = this.spinner;
-        const frame = frames[frameIndex];
-        frameIndex = ++frameIndex < frames.length ? frameIndex : 0;
-
-        const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
-        const displayRaw = defaultRaw.length > terminalCol ? defaultRaw.slice(0, terminalCol) : defaultRaw;
-        console.log(displayRaw);
+        this.frameIndex = 0;
+        console.log(this.renderLine());
         this.interval = setInterval(() => {
             // move terminal cursor to line
             const moveCursorPos = Spinner.count - this.spinnerPos;
             this.stream.moveCursor(0, -moveCursorPos);
             this.stream.clearLine();
-            const terminalCol = this.stream.columns;
 
-            const { frames } = this.spinner;
-            const frame = frames[frameIndex];
-            frameIndex = ++frameIndex < frames.length ? frameIndex : 0;
-
-            const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
-            const displayRaw = defaultRaw.length > terminalCol ? defaultRaw.slice(0, terminalCol) : defaultRaw;
-            this.stream.write(displayRaw);
-            this.stream.moveCursor(-displayRaw.length, 0);
+            const line = this.renderLine();
+            this.stream.write(line);
+            this.stream.moveCursor(-line.length, 0);
 
             // move terminal cursor to the end
             this.stream.moveCursor(0, moveCursorPos);
@@ -170,8 +179,11 @@ class Spinner {
         if (this.started === false) {
             return;
         }
+
+        if (!is.nullOrUndefined(text)) {
+            this[TEXT] = text;
+        }
         clearInterval(this.interval);
-        this.interval = null;
         Spinner.emitter.emit("success", this);
     }
 
@@ -186,8 +198,10 @@ class Spinner {
         if (this.started === false) {
             return;
         }
+        if (!is.nullOrUndefined(text)) {
+            this[TEXT] = text;
+        }
         clearInterval(this.interval);
-        this.interval = null;
         Spinner.emitter.emit("fail", this);
     }
 }

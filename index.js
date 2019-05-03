@@ -1,5 +1,5 @@
 const cliSpinners = require("cli-spinners");
-const Spinner = require("./src/Spinner.js");
+const Spinner = require("./src/spinner.class.js");
 
 /* eslint-disable no-loop-func */
 async function startAll(array) {
