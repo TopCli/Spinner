@@ -42,10 +42,6 @@ async function startAll(array) {
         if (started === array.length) {
             writeRecap();
         }
-
-        if (finished === array.length) {
-            process.stdout.moveCursor(0, LINE_JUMP);
-        }
     });
 
     Spinner.emitter.on("failed", () => {
@@ -55,16 +51,24 @@ async function startAll(array) {
         if (started === array.length) {
             writeRecap();
         }
-
-        if (finished === array.length) {
-            process.stdout.moveCursor(0, LINE_JUMP);
-        }
     });
 
-    const results = await Promise.all(array);
-    cliCursor.show();
+    const rejects = [];
+    const results = await Promise.all(
+        array.map((promise) => promise.catch((err) => rejects.push(err)))
+    );
 
-    return results;
+    setImmediate(() => {
+        writeRecap();
+        process.stdout.moveCursor(0, LINE_JUMP + 2);
+
+        for (const reject of rejects) {
+            console.error(reject);
+        }
+        cliCursor.show();
+
+        return results;
+    });
 }
 
 module.exports = {
