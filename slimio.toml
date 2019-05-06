@@ -1,0 +1,4 @@
+name = "@slimio/async-cli-spinner"
+version = "0.1.0"
+type = "Package"
+dependencies = { }

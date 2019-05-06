@@ -63,7 +63,7 @@ async function startAll(array) {
         process.stdout.moveCursor(0, LINE_JUMP + 2);
 
         for (const reject of rejects) {
-            console.error(reject);
+            console.error(`${reject.stack}\n`);
         }
         cliCursor.show();
 

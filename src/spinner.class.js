@@ -98,8 +98,7 @@ class Spinner {
             }
             this[symSpinner] = value;
         }
-
-        if (process.platform === "win32") {
+        else if (process.platform === "win32") {
             this[symSpinner] = cliSpinners[DEFAULT_SPINNER];
         }
         else if (is.nullOrUndefined(value)) {
@@ -110,6 +109,7 @@ class Spinner {
                 this[symSpinner] = cliSpinners[value];
             }
             else {
+                /* eslint-disable max-len */
                 throw new Error(`There is no built-in spinner named '${value}'. See "cli-spinners" from sindresorhus for a full list.`);
             }
         }

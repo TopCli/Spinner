@@ -1,7 +1,7 @@
 {
     "name": "@slimio/async-cli-spinner",
     "version": "0.1.0",
-    "description": "",
+    "description": "Simultaneous async spinner for CLI",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
@@ -14,7 +14,14 @@
         "type": "git",
         "url": "git+https://github.com/SlimIO/async-cli-spinner.git"
     },
-    "keywords": [],
+    "keywords": [
+        "CLI",
+        "SlimIO",
+        "multiple",
+        "simultaneous",
+        "async",
+        "spinners"
+    ],
     "author": "SlimIO",
     "license": "MIT",
     "bugs": {
@@ -22,7 +29,10 @@
     },
     "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
     "dependencies": {
+        "@slimio/is": "^1.5.0",
+        "@slimio/safe-emitter": "^1.0.6",
         "cli-cursor": "^3.0.0",
+        "cli-spinner": "^0.2.10",
         "log-symbols": "^3.0.0"
     },
     "devDependencies": {

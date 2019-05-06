@@ -1,13 +1,14 @@
 {
     "opts": {
         "encoding": "utf8",
-        "destination": "./docs/",
+        "destination": "./jsdocs/",
         "recurse": true,
         "template": "node_modules/@escommunity/minami"
     },
     "source": {
         "include": [
-            "index.js"
+            "index.js",
+            "src/spinner.class.js"
         ],
         "exclude": [
             "node_modules",
