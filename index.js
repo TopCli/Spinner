@@ -1,11 +1,17 @@
+// Require internal Dependencies
 const Spinner = require("./src/spinner.class.js");
+
+// Require Third-party Dependencies
+const is = require("@slimio/is");
 const cliCursor = require("cli-cursor");
 
 // CONSTANT
 const LINE_JUMP = 1;
 
-/* eslint-disable no-loop-func */
-async function startAll(array) {
+async function startAll(array, options = Object.create(null)) {
+    const recapOpt = is.boolean(options.recap) ? options.recap : true;
+    const rejectOpt = is.boolean(options.rejects) ? options.rejects : true;
+
     let started = 0;
     let finished = 0;
     let succeed = 0;
@@ -26,7 +32,7 @@ async function startAll(array) {
 
     Spinner.emitter.on("start", () => {
         started++;
-        if (started === array.length) {
+        if (started === array.length && recapOpt === true) {
             for (let ind = 1; ind <= LINE_JUMP; ind++) {
                 console.log();
             }
@@ -39,7 +45,7 @@ async function startAll(array) {
         finished++;
         succeed++;
 
-        if (started === array.length) {
+        if (started === array.length && recapOpt === true) {
             writeRecap();
         }
     });
@@ -48,7 +54,7 @@ async function startAll(array) {
         finished++;
         failed++;
 
-        if (started === array.length) {
+        if (started === array.length && recapOpt === true) {
             writeRecap();
         }
     });
@@ -59,13 +65,19 @@ async function startAll(array) {
     );
 
     setImmediate(() => {
-        writeRecap();
-        process.stdout.moveCursor(0, LINE_JUMP + 2);
+        if (recapOpt === true) {
+            writeRecap();
+            process.stdout.moveCursor(0, LINE_JUMP + 2);
+        }
 
-        for (const reject of rejects) {
-            console.error(`${reject.stack}\n`);
+        if (rejectOpt === true) {
+            process.stdout.moveCursor(0, 2);
+            for (const reject of rejects) {
+                console.error(`${reject.stack}\n`);
+            }
         }
         cliCursor.show();
+        Spinner.count = 0;
 
         return results;
     });

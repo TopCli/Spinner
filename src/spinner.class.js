@@ -1,9 +1,12 @@
 // Require Third-party Dependencies
+const SafeEmitter = require("@slimio/safe-emitter");
 const is = require("@slimio/is");
 const cliSpinners = require("cli-spinners");
-const SafeEmitter = require("@slimio/safe-emitter");
 const logSymbols = require("log-symbols");
 const cliCursor = require("cli-cursor");
+const stripAnsi = require("strip-ansi");
+const ansiRegex = require("ansi-regex");
+const wcwidth = require("wcwidth");
 
 // CONSTANT
 const DEFAULT_SPINNER = "line";
@@ -98,12 +101,6 @@ class Spinner {
             }
             this[symSpinner] = value;
         }
-        else if (process.platform === "win32") {
-            this[symSpinner] = cliSpinners[DEFAULT_SPINNER];
-        }
-        else if (is.nullOrUndefined(value)) {
-            this[symSpinner] = cliSpinners.dots;
-        }
         else if (is.string(value)) {
             if (cliSpinners[value]) {
                 this[symSpinner] = cliSpinners[value];
@@ -112,6 +109,12 @@ class Spinner {
                 /* eslint-disable max-len */
                 throw new Error(`There is no built-in spinner named '${value}'. See "cli-spinners" from sindresorhus for a full list.`);
             }
+        }
+        else if (process.platform === "win32") {
+            this[symSpinner] = cliSpinners[DEFAULT_SPINNER];
+        }
+        else if (is.nullOrUndefined(value)) {
+            this[symSpinner] = cliSpinners.dots;
         }
         else {
             throw new TypeError("spinner must be a type of string|object|undefined");
@@ -135,7 +138,6 @@ class Spinner {
      */
     lineToRender(options = Object.create(null)) {
         const terminalCol = this.stream.columns;
-
         let frame;
         if (is.nullOrUndefined(options.symbol)) {
             const { frames } = this.spinner;
@@ -147,8 +149,26 @@ class Spinner {
         }
 
         const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
+        this.prifexText = `${wcwidth(stripAnsi(defaultRaw))}:${wcwidth(defaultRaw)}`;
 
-        return defaultRaw.length > terminalCol ? defaultRaw.slice(0, terminalCol) : defaultRaw;
+        let regFind = true;
+        let regexArray = [];
+        let count = 0;
+        while (regFind) {
+            const sliced = defaultRaw.slice(0, terminalCol);
+            regexArray = sliced.match(ansiRegex()) || [];
+            if (regexArray.length === count) {
+                regFind = false;
+                break;
+            }
+            count = regexArray.length;
+        }
+
+        for (const reg of regexArray) {
+            count += reg.length;
+        }
+
+        return wcwidth(stripAnsi(defaultRaw)) > terminalCol ? `${defaultRaw.slice(0, terminalCol + count + 1)}\x1B[0m` : defaultRaw;
     }
 
     /**
@@ -161,9 +181,9 @@ class Spinner {
     renderLine(options) {
         const moveCursorPos = Spinner.count - this.spinnerPos;
         this.stream.moveCursor(0, -moveCursorPos);
-        this.stream.clearLine();
 
         const line = this.lineToRender(options);
+        this.stream.clearLine();
         this.stream.write(line);
 
         this.stream.moveCursor(-line.length, moveCursorPos);
