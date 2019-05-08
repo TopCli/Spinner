@@ -20,7 +20,8 @@ declare class Spinner{
     // static
     static count: number;
     static emitter: SafeEmitter;
-    static startAll(array: Function[], options?: Spinner.startOpt);
+    static startAll(functions: Function[], options?: Spinner.startOpt);
+    static created(fn: Function, args?: any);
 
     // Function
     private lineToRender(symbol?: string);
@@ -33,7 +34,7 @@ declare class Spinner{
 }
 
 
-declare namespace Spinner{
+declare namespace Spinner {
     interface spinnerObj {
         frames: string[];
         interval: number;
@@ -47,7 +48,8 @@ declare namespace Spinner{
     }
 
     interface startOpt {
-        recap: false
+        recap: true;
+        rejects: true;
     }
 }
 

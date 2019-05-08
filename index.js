@@ -321,6 +321,9 @@ class Spinner {
 
 
 /**
+ * @static
+ * @memberof Spinner#
+ * @method startAll
  * @param {!Function[]} array array
  * @param {Object=} options options
  * @param {Boolean} [options.recap=true] Write a recap in terminal
@@ -329,7 +332,11 @@ class Spinner {
  * @return {Promise<any[]>}
  */
 /* eslint-disable-next-line func-names*/
-Spinner.startAll = async function(array, options = Object.create(null)) {
+Spinner.startAll = async function(functions, options = Object.create(null)) {
+    if (!is.array(functions)) {
+        throw new TypeError("asyncFunctions param must be a type of <array>");
+    }
+
     const recapOpt = is.boolean(options.recap) ? options.recap : true;
     const rejectOpt = is.boolean(options.rejects) ? options.rejects : true;
 
@@ -344,7 +351,7 @@ Spinner.startAll = async function(array, options = Object.create(null)) {
      */
     function writeRecap() {
         const col = process.stdout.columns;
-        const recap = `${finished} / ${array.length} : with ${failed} failed`;
+        const recap = `${finished} / ${functions.length} : with ${failed} failed`;
         const displayRecap = recap.length > col ? recap.slice(0, col) : recap;
 
         process.stdout.moveCursor(0, LINE_JUMP);
@@ -356,7 +363,7 @@ Spinner.startAll = async function(array, options = Object.create(null)) {
 
     Spinner.emitter.on("start", () => {
         started++;
-        if (started === array.length && recapOpt === true) {
+        if (started === functions.length && recapOpt === true) {
             for (let ind = 1; ind <= LINE_JUMP; ind++) {
                 console.log();
             }
@@ -369,7 +376,7 @@ Spinner.startAll = async function(array, options = Object.create(null)) {
         finished++;
         // succeed++;
 
-        if (started === array.length && recapOpt === true) {
+        if (started === functions.length && recapOpt === true) {
             writeRecap();
         }
     });
@@ -378,14 +385,22 @@ Spinner.startAll = async function(array, options = Object.create(null)) {
         finished++;
         failed++;
 
-        if (started === array.length && recapOpt === true) {
+        if (started === functions.length && recapOpt === true) {
             writeRecap();
         }
     });
 
     const rejects = [];
     const results = await Promise.all(
-        array.map((promise) => promise.catch((err) => rejects.push(err)))
+        functions.map((promise) => {
+            if (is.array(promise)) {
+                const [fn, ...args] = promise;
+
+                return fn(...args);
+            }
+
+            return promise().catch(rejects.push);
+        })
     );
 
     setImmediate(() => {
@@ -405,6 +420,26 @@ Spinner.startAll = async function(array, options = Object.create(null)) {
         return results;
     });
 };
+
+/**
+ * @static
+ * @method create
+ * @memberof Spinner#
+ * @param {Function} fn Async function
+ * @param {Array} args array of arguments for the async function
+ */
+/* eslint-disable-next-line func-names */
+Spinner.create = function(fn, ...args) {
+    if (!is.asyncFunction(fn)) {
+        throw new TypeError("fn param must be an async function");
+    }
+    if (args.length > 0) {
+        return [fn, ...args];
+    }
+
+    return fn;
+};
+
 Spinner.count = 0;
 Spinner.emitter = new SafeEmitter();
 
