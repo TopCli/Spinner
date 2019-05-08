@@ -7,6 +7,7 @@ const cliCursor = require("cli-cursor");
 const stripAnsi = require("strip-ansi");
 const ansiRegex = require("ansi-regex");
 const wcwidth = require("wcwidth");
+const kleur = require("kleur");
 
 // CONSTANT
 const DEFAULT_SPINNER = "line";
@@ -15,6 +16,7 @@ const DEFAULT_SPINNER = "line";
 const symSpinner = Symbol("spinner");
 const symPrefixText = Symbol("prefixText");
 const symText = Symbol("text");
+const symColor = Symbol("color");
 
 /**
  * @class Spinner
@@ -42,6 +44,7 @@ class Spinner {
         this.spinner = options.spinner;
         this.prefixText = options.prefixText;
         this.text = is.string(options.text) ? options.text : "";
+        this.color = options.color;
         this.started = false;
 
         this.stream = process.stdout;
@@ -84,6 +87,25 @@ class Spinner {
      */
     get prefixText() {
         return this[symPrefixText];
+    }
+
+    /**
+     * @public
+     * @memberof Spinner#
+     * @param {String} value Spinner color
+     */
+    set color(value) {
+        if (!is.string(value) && !is.nullOrUndefined(value)) {
+            throw new TypeError("Color must be a type of string or undefined");
+        }
+        this[symColor] = value;
+    }
+
+    /**
+     *
+     */
+    get color() {
+        return this[symColor];
     }
 
     /**
@@ -146,6 +168,10 @@ class Spinner {
         }
         else {
             frame = options.symbol;
+        }
+
+        if (!is.nullOrUndefined(this.color)) {
+            frame = kleur[this.color](frame);
         }
 
         const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
