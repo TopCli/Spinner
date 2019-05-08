@@ -6,7 +6,7 @@
 Simultaneous async spinner for CLI
 
 ## Requirements
-- Node.js v10 or higher
+- Node.js v11 or higher
 
 ## Getting Started
 
