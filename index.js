@@ -39,10 +39,11 @@ class Spinner {
     /**
      * @constructor
      * @memberof #Spinner
-     * @param {Object} options options
+     * @param {Object=} options options
      * @param {SpinnerObj|String} options.spinner Object for custom or string to get from cli-spinner
      * @param {String} options.prefixText String spinner prefix text to display
      * @param {String} options.text Spinner text to display
+     * @param {String} options.color Spinner color to display
      */
     constructor(options = Object.create(null)) {
         this.spinner = options.spinner;
@@ -175,20 +176,20 @@ class Spinner {
      * @private
      * @method lineToRender
      * @memberof Spinner#
-     * @param {Object} options options
+     * @param {String=} symbol Text symbol
      *
      * @return {String}
      */
-    lineToRender(options = Object.create(null)) {
+    lineToRender(symbol) {
         const terminalCol = this.stream.columns;
         let frame;
-        if (is.nullOrUndefined(options.symbol)) {
+        if (is.nullOrUndefined(symbol)) {
             const { frames } = this.spinner;
             frame = frames[this.frameIndex];
             this.frameIndex = ++this.frameIndex < frames.length ? this.frameIndex : 0;
         }
         else {
-            frame = options.symbol;
+            frame = symbol;
         }
 
         if (!is.nullOrUndefined(this.color)) {
@@ -227,15 +228,15 @@ class Spinner {
      * @private
      * @method renderLine
      * @memberof Spinner#
-     * @param {Object} options options
+     * @param {String=} symbol Text symbol
      *
      * @return {void}
      */
-    renderLine(options) {
+    renderLine(symbol) {
         const moveCursorPos = Spinner.count - this.spinnerPos;
         this.stream.moveCursor(0, -moveCursorPos);
 
-        const line = this.lineToRender(options);
+        const line = this.lineToRender(symbol);
         this.stream.clearLine();
         this.stream.write(line);
 
@@ -246,7 +247,7 @@ class Spinner {
      * @public
      * @method start
      * @memberof Spinner#
-     * @param {String} text text
+     * @param {String=} text text
      *
      * @return {void}
      */
@@ -272,7 +273,7 @@ class Spinner {
      * @private
      * @method start
      * @memberof Spinner#
-     * @param {String} text Spinner text
+     * @param {String=} text Spinner text
      *
      * @return {void}
      */
@@ -293,13 +294,13 @@ class Spinner {
      * @public
      * @method succeed
      * @memberof Spinner#
-     * @param {String} text Spinner text
+     * @param {String=} text Spinner text
      *
      * @return {void}
      */
     succeed(text) {
         this.stop(text);
-        this.renderLine({ symbol: logSymbols.success, text });
+        this.renderLine(logSymbols.success);
         Spinner.emitter.emit("succeed");
     }
 
@@ -307,21 +308,23 @@ class Spinner {
      * @public
      * @method failed
      * @memberof Spinner#
-     * @param {String} text Spinner text
+     * @param {String=} text Spinner text
      *
      * @return {void}
      */
     failed(text) {
         this.stop(text);
-        this.renderLine({ symbol: logSymbols.error, text });
+        this.renderLine(logSymbols.error);
         Spinner.emitter.emit("failed");
     }
 }
 
 
 /**
- * @param {Function[]} array array
- * @param {Object} options options
+ * @param {!Function[]} array array
+ * @param {Object=} options options
+ * @param {Boolean} [options.recap=true] Write a recap in terminal
+ * @param {Boolean} [options.rejects=true] Write all rejection in terminal
  *
  * @return {Promise<any[]>}
  */
@@ -388,13 +391,12 @@ Spinner.startAll = async function(array, options = Object.create(null)) {
     setImmediate(() => {
         if (recapOpt === true) {
             writeRecap();
-            process.stdout.moveCursor(0, LINE_JUMP + 2);
+            process.stdout.moveCursor(0, LINE_JUMP + 1);
         }
 
-        if (rejectOpt === true) {
-            process.stdout.moveCursor(0, 2);
+        if (rejectOpt === true && rejects.length > 0) {
             for (const reject of rejects) {
-                console.error(`${reject.stack}\n`);
+                console.error(`\n${reject.stack}`);
             }
         }
         cliCursor.show();
