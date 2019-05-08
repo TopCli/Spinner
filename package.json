@@ -40,18 +40,18 @@
         "wcwidth": "^1.0.1"
     },
     "devDependencies": {
-        "@commitlint/cli": "^7.5.2",
+        "@commitlint/cli": "^7.6.0",
         "@commitlint/config-conventional": "^7.5.0",
         "@escommunity/minami": "^1.0.0",
         "@slimio/eslint-config": "^2.0.4",
         "@types/node": "^11.13.8",
         "ava": "^1.4.1",
+        "c8": "^4.0.0",
+        "dotenv": "^7.0.0",
         "eslint": "^5.16.0",
         "husky": "^2.2.0",
         "jsdoc": "^3.5.5",
-        "pkg-ok": "^2.3.1",
-        "c8": "^4.0.0",
-        "dotenv": "^7.0.0"
+        "pkg-ok": "^2.3.1"
     },
     "engines": {
         "node": ">=10"
