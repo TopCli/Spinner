@@ -41,7 +41,7 @@ declare namespace Spinner {
     }
 
     interface options {
-        spinner: SpinnerObj|string;
+        spinner: spinnerObj|string;
         text: string;
         prefixText: string;
         color: string;
