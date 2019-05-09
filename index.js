@@ -397,6 +397,9 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
 
                 return fn(...args);
             }
+            if (is.asyncFunction(promise)) {
+                return promise.catch(rejects.push);
+            }
 
             return promise().catch(rejects.push);
         })
@@ -429,8 +432,8 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
  */
 /* eslint-disable-next-line func-names */
 Spinner.create = function(fn, ...args) {
-    if (!is.asyncFunction(fn)) {
-        throw new TypeError("fn param must be an async function");
+    if (!is.func(fn)) {
+        throw new TypeError("fn param must be a function");
     }
     if (args.length > 0) {
         return [fn, ...args];
