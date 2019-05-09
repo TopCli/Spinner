@@ -1,6 +1,6 @@
 {
     "name": "@slimio/async-cli-spinner",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Simultaneous async spinner for CLI",
     "main": "index.js",
     "scripts": {
