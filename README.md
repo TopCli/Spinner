@@ -22,8 +22,8 @@ $ yarn add @slimio/async-cli-spinner
 ```js
 const Spinner = require("@slimio/async-cli-spinner");
 
-async function fnWithSpinner(item){
-    await new Promise((resolve) => {
+function fnWithSpinner(item){
+    return new Promise((resolve) => {
         const spinner = new Spinner();
         spinner.prefixText = item;
         spinner.start("Started");
@@ -40,7 +40,7 @@ async function fnWithSpinner(item){
 }
 
 async function main() {
-    Spinner.startAll([
+    await Spinner.startAll([
         fnWithSpinner,
         Spinner.create(fnWithSpinner),
         Spinner.create(fnWithSpinner, "Item 1"),
@@ -99,8 +99,8 @@ Example:
 ```js
 const Spinner = require("@slimio/async-cli-spinner");
 
-async function fnWithSpinner(){
-    await new Promise((resolve) => {
+function fnWithSpinner(){
+    return new Promise((resolve) => {
         const spinner = new Spinner();
         spinner.start("Started");
 
@@ -116,7 +116,7 @@ async function fnWithSpinner(){
 }
 
 async function main() {
-    Spinner.startAll([
+    await Spinner.startAll([
         fnWithSpinner,
         fnWithSpinner,
         fnWithSpinner
@@ -133,8 +133,8 @@ Example:
 ```js
 const Spinner = require("@slimio/async-cli-spinner");
 
-async function fnWithSpinner(item){
-    await new Promise((resolve) => {
+function fnWithSpinner(item){
+    return new Promise((resolve) => {
         const spinner = new Spinner();
         spinner.prefixText = item;
         spinner.start("Started");
@@ -151,7 +151,7 @@ async function fnWithSpinner(item){
 }
 
 async function main() {
-    Spinner.startAll([
+    await Spinner.startAll([
         Spinner.create(fnWithSpinner, "Item 1"),
         Spinner.create(fnWithSpinner, "Item 2"),
         Spinner.create(fnWithSpinner, "Item 3")
