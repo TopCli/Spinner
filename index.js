@@ -214,7 +214,6 @@ class Spinner {
         for (const reg of regexArray) {
             count += wcwidth(reg);
         }
-        count++;
 
         if (wcwidth(stripAnsi(defaultRaw)) > terminalCol) {
             return `${defaultRaw.slice(0, terminalCol + count)}\x1B[0m`;
