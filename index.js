@@ -203,7 +203,7 @@ class Spinner {
         let regexArray = [];
         let count = 0;
         while (regFind) {
-            const sliced = defaultRaw.slice(0, terminalCol);
+            const sliced = defaultRaw.slice(0, terminalCol + count);
             regexArray = sliced.match(ansiRegex()) || [];
             if (regexArray.length === count) {
                 regFind = false;
@@ -213,7 +213,7 @@ class Spinner {
         }
 
         for (const reg of regexArray) {
-            count += reg.length;
+            count += wcwidth(reg);
         }
         count++;
 
