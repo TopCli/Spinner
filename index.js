@@ -197,7 +197,6 @@ class Spinner {
         }
 
         const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
-        this.prifexText = `${wcwidth(stripAnsi(defaultRaw))}:${wcwidth(defaultRaw)}`;
 
         let regFind = true;
         let regexArray = [];
