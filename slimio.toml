@@ -1,4 +1,12 @@
-name = "@slimio/async-cli-spinner"
-version = "0.1.0"
+name = "async-cli-spinner"
+version = "0.1.2"
 type = "Package"
 dependencies = { }
+
+[doc]
+port = 2_000
+include = [ ]
+
+[psp]
+jsdoc = true
+npmrc = true
