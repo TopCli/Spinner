@@ -1,5 +1,5 @@
 # async-cli-spinner
-![version](https://img.shields.io/badge/version-0.1.0-blue.svg)
+![version](https://img.shields.io/badge/version-0.1.3-blue.svg)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SlimIO/is/commit-activity)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
 
