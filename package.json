@@ -45,7 +45,7 @@
         "@escommunity/minami": "^1.0.0",
         "@slimio/eslint-config": "^2.0.4",
         "ava": "^1.4.1",
-        "c8": "^4.1.4",
+        "c8": "^4.1.5",
         "eslint": "^5.16.0",
         "husky": "^2.2.0",
         "jsdoc": "^3.6.1",
