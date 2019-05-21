@@ -53,6 +53,7 @@ main().catch(console.error);
 ## API
 
 <details><summary>constructor(options?: Spinner.options)</summary>
+<br>
 Create a new Spinner object.
 
 Options params :
@@ -81,9 +82,11 @@ const spinner = new Spinner();
 
 
 <details><summary>static startAll(functions: Function[], options?: Spinner.startOpt)</summary>
+<br>
 Start all functions with spinners passed in array.
 
-> All functions must return a promise.
+> Accept `async` and normal functions  
+> If you use normal function, it must return a `Promise`
 
 Options params :
 ```ts
@@ -127,6 +130,7 @@ main().catch(console.error);
 </details>
 
 <details><summary>static created(fn: Function, args?: any)</summary>
+<br>
 This method allow to pass arguments to our spinner function. This method prevent execute function before some throw errors.
 
 Example:
@@ -176,6 +180,7 @@ Stop the spinner in the CLI, write the text passed in param and mark it as succe
 <details><summary>failed(text?: string)</summary>
 Stop the spinner in the CLI, write the text passed in param and mark it as failed with a symbol.
 </details>
+<br>
 
 > Functions **start()**, **succeed()** and **failed()** are supposed to be executed in a function which return a promise and will be called by Spinner.startAll().
 

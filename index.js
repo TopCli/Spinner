@@ -335,6 +335,20 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
         throw new TypeError("asyncFunctions param must be a type of <array>");
     }
 
+    for (const elem of functions) {
+        if (is.array(elem)) {
+            const [fn] = elem;
+            if (!is.func(fn)) {
+                throw new TypeError("The first item of an array in startAll() functions param must be a type of <Function>");
+            }
+
+            continue;
+        }
+        if (!is.func(elem)) {
+            throw new TypeError("Item startAll() functions param must be a type of <Function>");
+        }
+    }
+
     const recapOpt = is.boolean(options.recap) ? options.recap : true;
     const rejectOpt = is.boolean(options.rejects) ? options.rejects : true;
 
@@ -395,9 +409,6 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
                 const [fn, ...args] = promise;
 
                 return fn(...args);
-            }
-            if (is.asyncFunction(promise)) {
-                return promise.catch(rejects.push);
             }
 
             return promise().catch(rejects.push);
