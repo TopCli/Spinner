@@ -184,6 +184,17 @@ Stop the spinner in the CLI, write the text passed in param and mark it as faile
 
 > Functions **start()**, **succeed()** and **failed()** are supposed to be executed in a function which return a promise and will be called by Spinner.startAll().
 
+|Name|Refactoring|Security Risk|Usage|
+|---|---|---|---|
+|[@slimio/is](https://github.com/SlimIO/is#readme)|Minor|Low|Type checker|
+|[@slimio/safe-emitter](https://github.com/SlimIO/safeEmitter#readme)|Minor|Low|Safe emitter|
+|[ansi-regex](https://github.com/chalk/ansi-regex#readme)|Minor|Low|Get ANSI code|
+|[cli-cursor](https://github.com/sindresorhus/cli-cursor#readme)|⚠️Major|High|Show/Hide CLI cursor|
+|[cli-spinners](https://github.com/sindresorhus/cli-spinners#readme)|Minor|Low|Bunch of spinner|
+|[kleur](https://github.com/lukeed/kleur#readme)|Minor|Low|CLI color|
+|[log-symbols](https://github.com/sindresorhus/log-symbols#readme)|Minor|Low|Symbol for CLI|
+|[strip-ansi](https://github.com/chalk/strip-ansi#readme)|Minor|Low|ANSI escape codes|
+|[wcwidth](https://github.com/timoxley/wcwidth#readme)|⚠️Major|Low|Get CLI columns for special characters|
 
 ## License
 MIT
