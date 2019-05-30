@@ -9,6 +9,11 @@ const ansiRegex = require("ansi-regex");
 const wcwidth = require("wcwidth");
 const kleur = require("kleur");
 
+// Require Node.js Dependencies
+const { promisify } = require("util");
+
+const setImmediateAsync = promisify(setImmediate);
+
 // CONSTANT
 const DEFAULT_SPINNER = "line";
 const LINE_JUMP = 1;
@@ -415,22 +420,21 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
         })
     );
 
-    setImmediate(() => {
-        if (recapOpt === true) {
-            writeRecap();
-            process.stdout.moveCursor(0, LINE_JUMP + 1);
-        }
+    await setImmediateAsync();
+    if (recapOpt === true) {
+        writeRecap();
+        process.stdout.moveCursor(0, LINE_JUMP + 1);
+    }
 
-        if (rejectOpt === true && rejects.length > 0) {
-            for (const reject of rejects) {
-                console.error(`\n${reject.stack}`);
-            }
+    if (rejectOpt === true && rejects.length > 0) {
+        for (const reject of rejects) {
+            console.error(`\n${reject.stack}`);
         }
-        cliCursor.show();
-        Spinner.count = 0;
+    }
+    cliCursor.show();
+    Spinner.count = 0;
 
-        return results;
-    });
+    return results;
 };
 
 /**
