@@ -1,12 +1,3 @@
 name = "async-cli-spinner"
 version = "0.1.4"
 type = "Package"
-dependencies = { }
-
-[doc]
-port = 2_000
-include = [ ]
-
-[psp]
-jsdoc = true
-npmrc = true
