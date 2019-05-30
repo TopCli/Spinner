@@ -259,7 +259,6 @@ class Spinner {
             this[symText] = text;
         }
         this.started = true;
-        cliCursor.hide();
 
         this.emitter.emit("start");
 
@@ -407,6 +406,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
         }
     });
 
+    cliCursor.hide();
     const rejects = [];
     const results = await Promise.all(
         functions.map((promise) => {
