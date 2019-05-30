@@ -1,5 +1,5 @@
 name = "async-cli-spinner"
-version = "0.1.2"
+version = "0.1.4"
 type = "Package"
 dependencies = { }
 
