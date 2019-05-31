@@ -40,7 +40,7 @@
         "wcwidth": "^1.0.1"
     },
     "devDependencies": {
-        "@commitlint/cli": "^7.6.1",
+        "@commitlint/cli": "^8.0.0",
         "@commitlint/config-conventional": "^7.6.0",
         "@escommunity/minami": "^1.0.0",
         "@slimio/eslint-config": "^2.0.4",
