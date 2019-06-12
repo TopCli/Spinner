@@ -413,10 +413,14 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
             if (is.array(promise)) {
                 const [fn, ...args] = promise;
 
-                return fn(...args).catch(rejects.push);
+                return fn(...args).catch((err) => {
+                    rejects.push(err);
+                });
             }
 
-            return promise().catch(rejects.push);
+            return promise().catch((err) => {
+                rejects.push(err);
+            });
         })
     );
 
