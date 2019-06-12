@@ -20,17 +20,17 @@ declare class Spinner{
     // static
     static count: number;
     static emitter: SafeEmitter;
-    static startAll(functions: Function[], options?: Spinner.startOpt);
-    static created(fn: Function, args?: any);
+    static startAll(functions: Function[], options?: Spinner.startOpt): Promise<any[]>;
+    static created(fn: Function, args?: any): Function|[Function, ...any];
 
     // Function
-    private lineToRender(symbol?: string);
-    private renderLine(symbol?: string);
-    private stop(text?: string);
+    private lineToRender(symbol?: string): string;
+    private renderLine(symbol?: string): void;
+    private stop(text?: string): void;
 
-    public start(text?: string);
-    public succeed(text?: string);
-    public failed(text?: string);
+    public start(text?: string): void;
+    public succeed(text?: string): void;
+    public failed(text?: string): void;
 }
 
 
