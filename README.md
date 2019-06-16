@@ -100,7 +100,7 @@ const dotsSpinner = new Spinner(spinner: "dots");
 </details>
 
 
-<details><summary>static startAll(functions: Function[], options?: Spinner.startOpt): Promise&ltany[]&gt</summary>
+<details><summary>static startAll(functions: Spinner.Handler[], options?: Spinner.startOpt): Promise&ltany[]&gt</summary>
 <br>
 Start all functions with spinners passed in array.
 
@@ -148,7 +148,7 @@ main().catch(console.error);
 ```
 </details>
 
-<details><summary>static created(fn: Function, args?: any): Function|[Function, ...any]</summary>
+<details><summary>static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any]</summary>
 <br>
 This method allow to pass arguments to our spinner function. This method prevent execute function before some throw errors.
 
@@ -184,9 +184,7 @@ main().catch(console.error);
 ```
 </details>
 
-
-<br>
-
+-------------------------------------------------
 
 <details><summary>start(text?: string): Spinner</summary>
 Start the spinner in the CLI and write the text passed in param.
@@ -202,6 +200,8 @@ Stop the spinner in the CLI, write the text passed in param and mark it as faile
 <br>
 
 > Functions **start()**, **succeed()** and **failed()** are supposed to be executed in a function which return a promise and will be called by Spinner.startAll().
+
+## Dependencies
 
 |Name|Refactoring|Security Risk|Usage|
 |---|---|---|---|

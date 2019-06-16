@@ -20,8 +20,8 @@ declare class Spinner{
     // static
     static count: number;
     static emitter: SafeEmitter;
-    static startAll(functions: Function[], options?: Spinner.startOpt): Promise<any[]>;
-    static created(fn: Function, args?: any): Function|[Function, ...any];
+    static startAll(functions: Spinner.Handler[], options?: Spinner.startOpt): Promise<any[]>;
+    static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any];
 
     // Function
     private lineToRender(symbol?: string): string;
@@ -51,6 +51,8 @@ declare namespace Spinner {
         recap: true;
         rejects: true;
     }
+
+    type Handler = () => Promise<any>
 
     enum spinners{
         "dots",
