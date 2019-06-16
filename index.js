@@ -1,3 +1,6 @@
+// Require Node.js Dependencies
+const { promisify } = require("util");
+
 // Require Third-party Dependencies
 const SafeEmitter = require("@slimio/safe-emitter");
 const is = require("@slimio/is");
@@ -9,11 +12,6 @@ const ansiRegex = require("ansi-regex");
 const wcwidth = require("wcwidth");
 const kleur = require("kleur");
 
-// Require Node.js Dependencies
-const { promisify } = require("util");
-
-const setImmediateAsync = promisify(setImmediate);
-
 // CONSTANT
 const DEFAULT_WIN_SPINNER = "line";
 const LINE_JUMP = 1;
@@ -23,6 +21,9 @@ const symSpinner = Symbol("spinner");
 const symPrefixText = Symbol("prefixText");
 const symText = Symbol("text");
 const symColor = Symbol("color");
+
+// Globals
+const setImmediateAsync = promisify(setImmediate);
 
 /**
  * @typedef {Object} SpinnerObj
@@ -55,7 +56,6 @@ class Spinner {
         this.prefixText = options.prefixText;
         this.text = is.string(options.text) ? options.text : "";
         this.color = options.color;
-
         this.emitter = new SafeEmitter();
         this.stream = process.stdout;
         this.started = false;
@@ -63,7 +63,7 @@ class Spinner {
         this.emitter.once("start").then(() => {
             this.spinnerPos = Spinner.count;
             Spinner.count++;
-        });
+        }).catch(console.error);
     }
 
     /**
@@ -156,11 +156,11 @@ class Spinner {
                 throw new Error(`There is no built-in spinner named '${value}'. See "cli-spinners" from sindresorhus for a full list.`);
             }
         }
-        else if (process.platform === "win32") {
-            this[symSpinner] = cliSpinners[DEFAULT_WIN_SPINNER];
-        }
+        // else if (process.platform === "win32") {
+        //     this[symSpinner] = cliSpinners[DEFAULT_WIN_SPINNER];
+        // }
         else if (is.nullOrUndefined(value)) {
-            this[symSpinner] = Spinner.DEFAULT_SPINNER;
+            this[symSpinner] = cliSpinners[Spinner.DEFAULT_SPINNER];
         }
         else {
             throw new TypeError("spinner must be a type of string|object|undefined");
@@ -242,7 +242,6 @@ class Spinner {
         const line = this.lineToRender(symbol);
         this.stream.clearLine();
         this.stream.write(line);
-
         this.stream.moveCursor(-line.length, moveCursorPos);
     }
 
@@ -259,12 +258,8 @@ class Spinner {
             this[symText] = text;
         }
         this.started = true;
-
         this.emitter.emit("start");
-
-        setImmediate(() => {
-            Spinner.emitter.emit("start");
-        });
+        setImmediate(() => Spinner.emitter.emit("start"));
 
         this.frameIndex = 0;
         console.log(this.lineToRender());
@@ -275,7 +270,7 @@ class Spinner {
 
     /**
      * @private
-     * @method start
+     * @method stop
      * @memberof Spinner#
      * @param {String=} text Spinner text
      *
@@ -338,30 +333,26 @@ class Spinner {
 /* eslint-disable-next-line func-names*/
 Spinner.startAll = async function(functions, options = Object.create(null)) {
     if (!is.array(functions)) {
-        throw new TypeError("asyncFunctions param must be a type of <array>");
+        throw new TypeError("functions param must be a type of <array>");
     }
 
     for (const elem of functions) {
         if (is.array(elem)) {
             const [fn] = elem;
-            if (!is.func(fn)) {
+            if (!is.asyncFunction(fn)) {
                 throw new TypeError("The first item of an array in startAll() functions param must be a type of <Function>");
             }
 
             continue;
         }
-        if (!is.func(elem)) {
+        if (!is.asyncFunction(elem)) {
             throw new TypeError("Item startAll() functions param must be a type of <Function>");
         }
     }
 
     const recapOpt = is.boolean(options.recap) ? options.recap : true;
     const rejectOpt = is.boolean(options.rejects) ? options.rejects : true;
-
-    let started = 0;
-    let finished = 0;
-    // let succeed = 0;
-    let failed = 0;
+    let [started, finished, failed] = [0, 0, 0];
 
     /**
      * @function writeRecap
@@ -382,9 +373,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
     Spinner.emitter.on("start", () => {
         started++;
         if (started === functions.length && recapOpt === true) {
-            for (let ind = 1; ind <= LINE_JUMP; ind++) {
-                console.log();
-            }
+            console.log("\n".repeat(LINE_JUMP - 1));
             process.stdout.moveCursor(0, -LINE_JUMP);
             writeRecap();
         }
@@ -392,8 +381,6 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
 
     Spinner.emitter.on("succeed", () => {
         finished++;
-        // succeed++;
-
         if (started === functions.length && recapOpt === true) {
             writeRecap();
         }
@@ -415,14 +402,10 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
             if (is.array(promise)) {
                 const [fn, ...args] = promise;
 
-                return fn(...args).catch((err) => {
-                    rejects.push(err);
-                });
+                return fn(...args).catch((err) => rejects.push(err));
             }
 
-            return promise().catch((err) => {
-                rejects.push(err);
-            });
+            return promise().catch((err) => rejects.push(err));
         })
     );
 
@@ -449,11 +432,14 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
  * @memberof Spinner#
  * @param {Function} fn Async function
  * @param {Array} args array of arguments for the async function
+ * @returns {Array<any>}
+ *
+ * @throws {TypeError}
  */
 /* eslint-disable-next-line func-names */
 Spinner.create = function(fn, ...args) {
-    if (!is.func(fn)) {
-        throw new TypeError("fn param must be a function");
+    if (!is.asyncFunction(fn)) {
+        throw new TypeError("fn param must be an Asynchronous Function");
     }
     if (args.length > 0) {
         return [fn, ...args];
@@ -465,5 +451,6 @@ Spinner.create = function(fn, ...args) {
 Spinner.DEFAULT_SPINNER = "dots";
 Spinner.count = 0;
 Spinner.emitter = new SafeEmitter();
+Object.preventExtensions(Spinner);
 
 module.exports = Spinner;

@@ -20,6 +20,7 @@ declare class Spinner{
     // static
     static count: number;
     static emitter: SafeEmitter;
+    static DEFAULT_SPINNER: Spinner.spinners;
     static startAll(functions: Spinner.Handler[], options?: Spinner.startOpt): Promise<any[]>;
     static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any];
 
