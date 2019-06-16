@@ -81,7 +81,7 @@ const spinner = new Spinner();
 </details>
 
 
-<details><summary>static startAll(functions: Function[], options?: Spinner.startOpt)</summary>
+<details><summary>static startAll(functions: Function[], options?: Spinner.startOpt): Promise&ltany[]&gt</summary>
 <br>
 Start all functions with spinners passed in array.
 
@@ -129,7 +129,7 @@ main().catch(console.error);
 ```
 </details>
 
-<details><summary>static created(fn: Function, args?: any)</summary>
+<details><summary>static created(fn: Function, args?: any): Function|[Function, ...any]</summary>
 <br>
 This method allow to pass arguments to our spinner function. This method prevent execute function before some throw errors.
 
@@ -169,15 +169,15 @@ main().catch(console.error);
 <br>
 
 
-<details><summary>start(text?: string)</summary>
+<details><summary>start(text?: string): Spinner</summary>
 Start the spinner in the CLI and write the text passed in param.
 </details>
 
-<details><summary>succeed(text?: string)</summary>
+<details><summary>succeed(text?: string): void</summary>
 Stop the spinner in the CLI, write the text passed in param and mark it as succeed with a symbol.
 </details>
 
-<details><summary>failed(text?: string)</summary>
+<details><summary>failed(text?: string): void</summary>
 Stop the spinner in the CLI, write the text passed in param and mark it as failed with a symbol.
 </details>
 <br>
