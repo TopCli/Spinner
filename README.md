@@ -22,32 +22,24 @@ $ yarn add @slimio/async-cli-spinner
 ```js
 const Spinner = require("@slimio/async-cli-spinner");
 
-function fnWithSpinner(item){
-    return new Promise((resolve) => {
-        const spinner = new Spinner();
-        spinner.prefixText = item;
-        spinner.start("Started");
+async function fnWithSpinner(prefixText) {
+    const spinner = new Spinner({ prefixText }).start("Start working!");
 
-        setTimeout(() => {
-            spinner.text = "working";
-        }, 2000);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    spinner.text = "Work in progress...";
 
-        setTimeout(() => {
-            spinner.succeed("All done !");
-            resolve();
-        }, 3000);
-    });
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    spinner.succeed("All done !");
 }
 
-async function main() {
-    await Spinner.startAll([
-        fnWithSpinner,
-        Spinner.create(fnWithSpinner),
-        Spinner.create(fnWithSpinner, "Item 1"),
-        Spinner.create(fnWithSpinner, "Item 2")
-    ]);
-}
-main().catch(console.error);
+Spinner.startAll([
+    fnWithSpinner,
+    Spinner.create(fnWithSpinner),
+    Spinner.create(fnWithSpinner, "Item 1"),
+    Spinner.create(fnWithSpinner, "Item 2")
+])
+    .then(() => console.log("All spinners finished!"))
+    .catch(console.error);
 ```
 
 ## API
