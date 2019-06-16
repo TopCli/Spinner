@@ -160,7 +160,7 @@ class Spinner {
             this[symSpinner] = cliSpinners[DEFAULT_SPINNER];
         }
         else if (is.nullOrUndefined(value)) {
-            this[symSpinner] = cliSpinners.dots;
+            this[symSpinner] = Spinner.DEFAULT_SPINNER;
         }
         else {
             throw new TypeError("spinner must be a type of string|object|undefined");
@@ -460,6 +460,7 @@ Spinner.create = function(fn, ...args) {
     return fn;
 };
 
+Spinner.DEFAULT_SPINNER = "dots";
 Spinner.count = 0;
 Spinner.emitter = new SafeEmitter();
 
