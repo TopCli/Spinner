@@ -1,9 +1,14 @@
 # Async-cli-spinner
-![version](https://img.shields.io/badge/version-0.1.3-blue.svg)
+![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/SlimIO/Async-cli-spinner/master/package.json?token=AOgWw3vrgQuu-U4fz1c7yYZyc7XJPNtrks5catjdwA%3D%3D&query=$.version&label=Version)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SlimIO/is/commit-activity)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
+![dep](https://img.shields.io/david/SlimIO/Async-cli-spinner.svg)
+![size](https://img.shields.io/bundlephobia/min/@slimio/async-cli-spinner.svg)
+[![Known Vulnerabilities](https://snyk.io//test/github/SlimIO/Async-cli-spinner/badge.svg?targetFile=package.json)](https://snyk.io//test/github/SlimIO/Async-cli-spinner?targetFile=package.json)
 
-Asynchronous CLI Spinner. This package has been created to handle multiple spinner at a time.
+Asynchronous CLI Spinner. This package has been created to handle simultaneous/multiple spinner at a time. The package has been inspired by [Ora](https://github.com/sindresorhus/ora) but in Asynchronous.
+
+All available spinners are part of [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) package.
 
 ## Requirements
 - [Node.js](https://nodejs.org/en/) v11 or higher
