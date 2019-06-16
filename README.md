@@ -11,6 +11,10 @@ Asynchronous CLI Spinner. This package has been created to handle simultaneous/m
 
 All available spinners are part of [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) package.
 
+<p align="center">
+<img src="https://github.com/SlimIO/Governance/blob/master/docs/images/cli_init.gif">
+</p>
+
 ## Requirements
 - [Node.js](https://nodejs.org/en/) v11 or higher
 
