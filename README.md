@@ -48,7 +48,7 @@ Spinner.startAll([
 <br>
 Create a new Spinner object.
 
-Options params :
+Options is described by the following TypeScript interface :
 ```ts
 declare namespace Spinner {
     interface spinnerObj {
@@ -57,7 +57,7 @@ declare namespace Spinner {
     }
 
     interface options {
-        spinner: SpinnerObj|Spinner.spinners;
+        spinner: SpinnerObj | Spinner.spinners;
         text: string;
         prefixText: string;
         color: string;
@@ -65,29 +65,14 @@ declare namespace Spinner {
 }
 ```
 
-> Look [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for more details
-
-|enum Spinner.spinners||||||
-|---|---|---|---|---|---|
-|"dots"|"dots2"|"dots3"|"dots4"|"dots5"|"dots6"|
-|"dots7"|"dots8"|"dots9"|"dots10"|"dots11"|"dots12"|
-|"line"|"line2"|"pipe"|"simpleDots"|"simpleDotsScrolling"|"star"|
-|"star2"|"flip"|"hamburger"|"growVertical"|"growHorizontal"|"balloon"|
-|"balloon2"|"noise"|"bounce"|"boxBounce"|"boxBounce2"|"triangle"|
-|"arc"|"circle"|"squareCorners"|"circleQuarters"|"circleHalves"|"squish"|
-|"toggle"|"toggle2"|"toggle3"|"toggle4"|"toggle5"|"toggle6"|
-|"toggle7"|"toggle8"|"toggle9"|"toggle10"|"toggle11"|"toggle12"|
-|"toggle13"|"arrow"|"arrow2"|"arrow3"|"bouncingBar"|"bouncingBall"|
-|"smiley"|"monkey"|"hearts"|"clock"|"earth"|"moon"|
-|"runner"|"pong"|"shark"|"dqpb"|"weather"|"christmas"|
-|"grenade"|"point"|"layer"|
+> 👀 Look [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for all kind of available spinners.
 
 Example:
 ```js
 const Spinner = require("@slimio/async-cli-spinner");
 
 const spinner = new Spinner();
-const dotsSpinner = new Spinner(spinner: "dots");
+const dotsSpinner = new Spinner({ spinner: "dots" });
 ```
 </details>
 
@@ -96,10 +81,9 @@ const dotsSpinner = new Spinner(spinner: "dots");
 <br>
 Start all functions with spinners passed in array.
 
-> Accept `async` and normal functions
-> If you use normal function, it must return a `Promise`
+> ⚠️ Only accept functions that return a Promise.
 
-Options params :
+Options is described by the following TypeScript interface:
 ```ts
 declare namespace Spinner {
     interface startOpt {
@@ -108,72 +92,11 @@ declare namespace Spinner {
     }
 }
 ```
-
-Example:
-```js
-const Spinner = require("@slimio/async-cli-spinner");
-
-function fnWithSpinner(){
-    return new Promise((resolve) => {
-        const spinner = new Spinner();
-        spinner.start("Started");
-
-        setTimeout(() => {
-            spinner.text = "working";
-        }, 2000);
-
-        setTimeout(() => {
-            spinner.succeed("All done !");
-            resolve();
-        }, 3000);
-    });
-}
-
-async function main() {
-    await Spinner.startAll([
-        fnWithSpinner,
-        fnWithSpinner,
-        fnWithSpinner
-    ]);
-}
-main().catch(console.error);
-```
 </details>
 
 <details><summary>static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any]</summary>
 <br>
 This method allow to pass arguments to our spinner function. This method prevent execute function before some throw errors.
-
-Example:
-```js
-const Spinner = require("@slimio/async-cli-spinner");
-
-function fnWithSpinner(item){
-    return new Promise((resolve) => {
-        const spinner = new Spinner();
-        spinner.prefixText = item;
-        spinner.start("Started");
-
-        setTimeout(() => {
-            spinner.text = "working";
-        }, 2000);
-
-        setTimeout(() => {
-            spinner.succeed("All done !");
-            resolve();
-        }, 3000);
-    });
-}
-
-async function main() {
-    await Spinner.startAll([
-        Spinner.create(fnWithSpinner, "Item 1"),
-        Spinner.create(fnWithSpinner, "Item 2"),
-        Spinner.create(fnWithSpinner, "Item 3")
-    ]);
-}
-main().catch(console.error);
-```
 </details>
 
 -------------------------------------------------
@@ -191,7 +114,7 @@ Stop the spinner in the CLI, write the text passed in param and mark it as faile
 </details>
 <br>
 
-> Functions **start()**, **succeed()** and **failed()** are supposed to be executed in a function which return a promise and will be called by Spinner.startAll().
+> ⚠️ Functions **start()**, **succeed()** and **failed()** are supposed to be executed in a function which return a promise and will be called by Spinner.startAll().
 
 ## Dependencies
 
