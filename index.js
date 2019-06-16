@@ -15,7 +15,7 @@ const { promisify } = require("util");
 const setImmediateAsync = promisify(setImmediate);
 
 // CONSTANT
-const DEFAULT_SPINNER = "line";
+const DEFAULT_WIN_SPINNER = "line";
 const LINE_JUMP = 1;
 
 // Symbol
@@ -157,7 +157,7 @@ class Spinner {
             }
         }
         else if (process.platform === "win32") {
-            this[symSpinner] = cliSpinners[DEFAULT_SPINNER];
+            this[symSpinner] = cliSpinners[DEFAULT_WIN_SPINNER];
         }
         else if (is.nullOrUndefined(value)) {
             this[symSpinner] = Spinner.DEFAULT_SPINNER;
@@ -269,6 +269,8 @@ class Spinner {
         this.frameIndex = 0;
         console.log(this.lineToRender());
         this.interval = setInterval(this.renderLine.bind(this), this.spinner.interval);
+
+        return this;
     }
 
     /**
