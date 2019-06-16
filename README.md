@@ -1,12 +1,12 @@
-# async-cli-spinner
+# Async-cli-spinner
 ![version](https://img.shields.io/badge/version-0.1.3-blue.svg)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SlimIO/is/commit-activity)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
 
-Simultaneous async spinner for CLI
+Asynchronous CLI Spinner. This package has been created to handle multiple spinner at a time.
 
 ## Requirements
-- Node.js v11 or higher
+- [Node.js](https://nodejs.org/en/) v11 or higher
 
 ## Getting Started
 
@@ -104,7 +104,7 @@ const dotsSpinner = new Spinner(spinner: "dots");
 <br>
 Start all functions with spinners passed in array.
 
-> Accept `async` and normal functions  
+> Accept `async` and normal functions
 > If you use normal function, it must return a `Promise`
 
 Options params :
