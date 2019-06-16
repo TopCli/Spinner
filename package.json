@@ -1,10 +1,9 @@
 {
     "name": "@slimio/async-cli-spinner",
     "version": "0.1.6",
-    "description": "Simultaneous async spinner for CLI",
+    "description": "Asynchronous CLI Spinner. Allow to create and manage simultaneous/multiple spinners at a time.",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
         "prepublishOnly": "pkg-ok",
         "test": "cross-env psp && ava --verbose",
         "doc": "jsdoc -c ./jsdoc.json -r -R ./README.md -P ./package.json --verbose",
@@ -20,7 +19,15 @@
         "multiple",
         "simultaneous",
         "async",
-        "spinners"
+        "asynchronous",
+        "spinner",
+        "spinners",
+        "ora",
+        "listr",
+        "terminal",
+        "term",
+        "console",
+        "progress"
     ],
     "author": "SlimIO",
     "license": "MIT",
