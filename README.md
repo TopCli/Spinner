@@ -71,6 +71,7 @@ declare namespace Spinner {
         text: string;
         prefixText: string;
         color: string;
+        verbose: boolean;
     }
 }
 ```
