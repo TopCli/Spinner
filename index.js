@@ -50,12 +50,15 @@ class Spinner {
      * @param {String} options.prefixText String spinner prefix text to display
      * @param {String} options.text Spinner text to display
      * @param {String} options.color Spinner color to display
+     * @param {Boolean} options.verbose Display spinner in console
      */
     constructor(options = Object.create(null)) {
         this.spinner = options.spinner;
         this.prefixText = options.prefixText;
         this.text = is.string(options.text) ? options.text : "";
         this.color = options.color;
+        this.verbose = is.boolean(options.verbose) ? options.verbose : false;
+
         this.emitter = new SafeEmitter();
         this.stream = process.stdout;
         this.started = false;
@@ -261,9 +264,11 @@ class Spinner {
         this.emitter.emit("start");
         setImmediate(() => Spinner.emitter.emit("start"));
 
-        this.frameIndex = 0;
-        console.log(this.lineToRender());
-        this.interval = setInterval(this.renderLine.bind(this), this.spinner.interval);
+        if (this.verbose === true) {
+            this.frameIndex = 0;
+            console.log(this.lineToRender());
+            this.interval = setInterval(this.renderLine.bind(this), this.spinner.interval);
+        }
 
         return this;
     }
@@ -286,7 +291,9 @@ class Spinner {
         }
         this.started = false;
 
-        clearInterval(this.interval);
+        if (this.verbose === true) {
+            clearInterval(this.interval);
+        }
     }
 
     /**
@@ -299,7 +306,9 @@ class Spinner {
      */
     succeed(text) {
         this.stop(text);
-        this.renderLine(logSymbols.success);
+        if (this.verbose === true) {
+            this.renderLine(logSymbols.success);
+        }
         Spinner.emitter.emit("succeed");
     }
 
@@ -313,7 +322,9 @@ class Spinner {
      */
     failed(text) {
         this.stop(text);
-        this.renderLine(logSymbols.error);
+        if (this.verbose === true) {
+            this.renderLine(logSymbols.error);
+        }
         Spinner.emitter.emit("failed");
     }
 }
