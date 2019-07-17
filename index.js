@@ -57,7 +57,7 @@ class Spinner {
         this.prefixText = options.prefixText;
         this.text = is.string(options.text) ? options.text : "";
         this.color = options.color;
-        this.verbose = is.boolean(options.verbose) ? options.verbose : false;
+        this.verbose = is.boolean(options.verbose) ? options.verbose : true;
 
         this.emitter = new SafeEmitter();
         this.stream = process.stdout;
