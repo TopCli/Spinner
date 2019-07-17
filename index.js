@@ -1,3 +1,5 @@
+"use strict";
+
 // Require Node.js Dependencies
 const { promisify } = require("util");
 
@@ -26,31 +28,21 @@ const symColor = Symbol("color");
 const setImmediateAsync = promisify(setImmediate);
 
 /**
- * @typedef {Object} SpinnerObj
- * @property {String[]} frames Array string frames of spinner
+ * @typedef {object} SpinnerObj
+ * @property {string[]} frames Array string frames of spinner
  * @property {number} interval interval between each frame
  */
 
-/**
- * @class Spinner
- * @property {String} prefixText Spinner prefix text
- * @property {String} text Spinner text
- * @property {SafeEmitter} emitter Emitter
- * @property {Boolean} started Spinner is started
- * @property {Stream} stream Spinner TTY stream
- * @property {Number} frameIndex Spinner frameIndex
- * @property {String} color Spinner color
- */
 class Spinner {
     /**
-     * @constructor
-     * @memberof #Spinner
-     * @param {Object=} options options
-     * @param {SpinnerObj|String} options.spinner Object for custom or string to get from cli-spinner
-     * @param {String} options.prefixText String spinner prefix text to display
-     * @param {String} options.text Spinner text to display
-     * @param {String} options.color Spinner color to display
-     * @param {Boolean} options.verbose Display spinner in console
+     * @class Spinner
+     * @memberof Spinner#
+     * @param {object} [options] options
+     * @param {SpinnerObj|string} options.spinner Object for custom or string to get from cli-spinner
+     * @param {string} options.prefixText String spinner prefix text to display
+     * @param {string} options.text Spinner text to display
+     * @param {string} options.color Spinner color to display
+     * @param {boolean} options.verbose Display spinner in console
      */
     constructor(options = Object.create(null)) {
         this.spinner = options.spinner;
@@ -72,7 +64,7 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @param {String} value Spinner text
+     * @param {string} value Spinner text
      *
      * @throws {TypeError}
      */
@@ -86,7 +78,8 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @member {String} text
+     * @member {string} text
+     * @returns {string}
      */
     get text() {
         return this[symText];
@@ -95,7 +88,7 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @param {String} value Spinner prefix text
+     * @param {string} value Spinner prefix text
      */
     set prefixText(value) {
         this[symPrefixText] = is.string(value) ? `${value} - ` : "";
@@ -104,7 +97,8 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @member {String} prefixText
+     * @member {string} prefixText
+     * @returns {string}
      */
     get prefixText() {
         return this[symPrefixText];
@@ -113,7 +107,7 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @param {String} value Spinner color
+     * @param {string} value Spinner color
      *
      * @throws {TypeError}
      */
@@ -127,7 +121,8 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @member {String} color
+     * @member {string} color
+     * @returns {string}
      */
     get color() {
         return this[symColor];
@@ -136,7 +131,7 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @param {Object|String} value text value
+     * @param {object|string} value text value
      *
      * @throws {TypeError}
      */
@@ -174,7 +169,8 @@ class Spinner {
     /**
      * @public
      * @memberof Spinner#
-     * @member {Object} spinner
+     * @member {object} spinner
+     * @returns {object}
      */
     get spinner() {
         return this[symSpinner];
@@ -182,11 +178,11 @@ class Spinner {
 
     /**
      * @private
-     * @method lineToRender
+     * @function lineToRender
      * @memberof Spinner#
-     * @param {String=} symbol Text symbol
+     * @param {string} [symbol] Text symbol
      *
-     * @return {String}
+     * @returns {string}
      */
     lineToRender(symbol) {
         const terminalCol = this.stream.columns;
@@ -232,11 +228,11 @@ class Spinner {
 
     /**
      * @private
-     * @method renderLine
+     * @function renderLine
      * @memberof Spinner#
-     * @param {String=} symbol Text symbol
+     * @param {string} [symbol] Text symbol
      *
-     * @return {void}
+     * @returns {void}
      */
     renderLine(symbol) {
         const moveCursorPos = Spinner.count - this.spinnerPos;
@@ -250,11 +246,11 @@ class Spinner {
 
     /**
      * @public
-     * @method start
+     * @function start
      * @memberof Spinner#
-     * @param {String=} text text
+     * @param {string} [text] text
      *
-     * @return {void}
+     * @returns {void}
      */
     start(text) {
         if (!is.nullOrUndefined(text)) {
@@ -275,11 +271,11 @@ class Spinner {
 
     /**
      * @private
-     * @method stop
+     * @function stop
      * @memberof Spinner#
-     * @param {String=} text Spinner text
+     * @param {string} [text] Spinner text
      *
-     * @return {void}
+     * @returns {void}
      */
     stop(text) {
         if (this.started === false) {
@@ -298,11 +294,11 @@ class Spinner {
 
     /**
      * @public
-     * @method succeed
+     * @function succeed
      * @memberof Spinner#
-     * @param {String=} text Spinner text
+     * @param {string} [text] Spinner text
      *
-     * @return {void}
+     * @returns {void}
      */
     succeed(text) {
         this.stop(text);
@@ -314,11 +310,11 @@ class Spinner {
 
     /**
      * @public
-     * @method failed
+     * @function failed
      * @memberof Spinner#
-     * @param {String=} text Spinner text
+     * @param {string} [text] Spinner text
      *
-     * @return {void}
+     * @returns {void}
      */
     failed(text) {
         this.stop(text);
@@ -333,13 +329,13 @@ class Spinner {
 /**
  * @static
  * @memberof Spinner#
- * @method startAll
- * @param {!Function[]} array array
- * @param {Object=} options options
- * @param {Boolean} [options.recap=true] Write a recap in terminal
- * @param {Boolean} [options.rejects=true] Write all rejection in terminal
+ * @function startAll
+ * @param {Function[]} array array
+ * @param {object} [options] options
+ * @param {boolean} [options.recap=true] Write a recap in terminal
+ * @param {boolean} [options.rejects=true] Write all rejection in terminal
  *
- * @return {Promise<any[]>}
+ * @returns {Promise<any[]>}
  */
 /* eslint-disable-next-line func-names*/
 Spinner.startAll = async function(functions, options = Object.create(null)) {
@@ -367,7 +363,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
 
     /**
      * @function writeRecap
-     * @return {void}
+     * @returns {void}
      */
     function writeRecap() {
         const col = process.stdout.columns;
@@ -432,6 +428,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
         }
     }
     cliCursor.show();
+    // eslint-disable-next-line
     Spinner.count = 0;
 
     return results;
@@ -439,7 +436,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
 
 /**
  * @static
- * @method create
+ * @function create
  * @memberof Spinner#
  * @param {Function} fn Async function
  * @param {Array} args array of arguments for the async function
