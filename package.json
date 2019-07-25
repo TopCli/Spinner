@@ -37,12 +37,12 @@
     "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
     "dependencies": {
         "@slimio/is": "^1.5.0",
+        "@slimio/wcwidth": "^1.0.0",
         "ansi-regex": "^4.1.0",
         "cli-cursor": "^3.0.0",
         "cli-spinners": "^2.1.0",
         "kleur": "^3.0.3",
-        "strip-ansi": "^5.2.0",
-        "wcwidth": "^1.0.1"
+        "strip-ansi": "^5.2.0"
     },
     "devDependencies": {
         "@commitlint/cli": "^8.0.0",

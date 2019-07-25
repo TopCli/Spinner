@@ -10,7 +10,7 @@ const cliSpinners = require("cli-spinners");
 const cliCursor = require("cli-cursor");
 const stripAnsi = require("strip-ansi");
 const ansiRegex = require("ansi-regex");
-const wcwidth = require("wcwidth");
+const wcwidth = require("@slimio/wcwidth");
 const kleur = require("kleur");
 
 // Require Internal Dependencies
