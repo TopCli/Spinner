@@ -42,7 +42,6 @@
         "cli-cursor": "^3.0.0",
         "cli-spinners": "^2.1.0",
         "kleur": "^3.0.3",
-        "log-symbols": "^3.0.0",
         "strip-ansi": "^5.2.0",
         "wcwidth": "^1.0.1"
     },

@@ -7,7 +7,8 @@
     },
     "source": {
         "include": [
-            "index.js"
+            "index.js",
+            "./src/logSymbols.js"
         ],
         "exclude": [
             "node_modules",

@@ -7,12 +7,14 @@ const { promisify } = require("util");
 const SafeEmitter = require("@slimio/safe-emitter");
 const is = require("@slimio/is");
 const cliSpinners = require("cli-spinners");
-const logSymbols = require("log-symbols");
 const cliCursor = require("cli-cursor");
 const stripAnsi = require("strip-ansi");
 const ansiRegex = require("ansi-regex");
 const wcwidth = require("wcwidth");
 const kleur = require("kleur");
+
+// Require Internal Dependencies
+const logSymbols = require("./src/logSymbols");
 
 // CONSTANT
 const DEFAULT_WIN_SPINNER = "line";
