@@ -2,9 +2,9 @@
 
 // Require Node.js Dependencies
 const { promisify } = require("util");
+const { EventEmitter, once } = require("events");
 
 // Require Third-party Dependencies
-const SafeEmitter = require("@slimio/safe-emitter");
 const is = require("@slimio/is");
 const cliSpinners = require("cli-spinners");
 const cliCursor = require("cli-cursor");
@@ -53,11 +53,11 @@ class Spinner {
         this.color = options.color;
         this.verbose = is.boolean(options.verbose) ? options.verbose : true;
 
-        this.emitter = new SafeEmitter();
+        this.emitter = new EventEmitter();
         this.stream = process.stdout;
         this.started = false;
 
-        this.emitter.once("start").then(() => {
+        once(this.emitter, "start").then(() => {
             this.spinnerPos = Spinner.count;
             Spinner.count++;
         }).catch(console.error);
@@ -460,7 +460,7 @@ Spinner.create = function(fn, ...args) {
 
 Spinner.DEFAULT_SPINNER = "dots";
 Spinner.count = 0;
-Spinner.emitter = new SafeEmitter();
+Spinner.emitter = new EventEmitter();
 Object.preventExtensions(Spinner);
 
 module.exports = Spinner;
