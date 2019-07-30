@@ -29,6 +29,11 @@
         "console",
         "progress"
     ],
+    "files": [
+        "index.js",
+        "index.d.ts",
+        "src/logSymbols.js"
+    ],
     "author": "SlimIO",
     "license": "MIT",
     "bugs": {
