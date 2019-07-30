@@ -204,25 +204,19 @@ class Spinner {
         if (!is.nullOrUndefined(this.color)) {
             frame = kleur[this.color](frame);
         }
-
         const defaultRaw = `${frame} ${this.prefixText}${this.text}`;
 
-        let regFind = true;
         let regexArray = [];
         let count = 0;
-        while (regFind) {
+        while (1) {
             const sliced = defaultRaw.slice(0, terminalCol + count);
             regexArray = sliced.match(ansiRegex()) || [];
             if (regexArray.length === count) {
-                regFind = false;
                 break;
             }
             count = regexArray.length;
         }
-
-        for (const reg of regexArray) {
-            count += wcwidth(reg);
-        }
+        count += regexArray.reduce((prev, curr) => prev + wcwidth(curr), 0);
 
         if (wcwidth(stripAnsi(defaultRaw)) > terminalCol) {
             return `${defaultRaw.slice(0, terminalCol + count)}\x1B[0m`;
