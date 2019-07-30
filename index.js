@@ -47,11 +47,14 @@ class Spinner {
      * @param {boolean} options.verbose Display spinner in console
      */
     constructor(options = Object.create(null)) {
+        this.verbose = is.boolean(options.verbose) ? options.verbose : true;
+        if (!this.verbose) {
+            return;
+        }
         this.spinner = options.spinner;
         this.prefixText = options.prefixText;
         this.text = is.string(options.text) ? options.text : "";
         this.color = options.color;
-        this.verbose = is.boolean(options.verbose) ? options.verbose : true;
 
         this.emitter = new EventEmitter();
         this.stream = process.stdout;
@@ -255,6 +258,9 @@ class Spinner {
      * @returns {void}
      */
     start(text) {
+        if (!this.verbose) {
+            return this;
+        }
         if (!is.nullOrUndefined(text)) {
             this[symText] = text;
         }
@@ -262,11 +268,9 @@ class Spinner {
         this.emitter.emit("start");
         setImmediate(() => Spinner.emitter.emit("start"));
 
-        if (this.verbose === true) {
-            this.frameIndex = 0;
-            console.log(this.lineToRender());
-            this.interval = setInterval(this.renderLine.bind(this), this.spinner.interval);
-        }
+        this.frameIndex = 0;
+        console.log(this.lineToRender());
+        this.interval = setInterval(this.renderLine.bind(this), this.spinner.interval);
 
         return this;
     }
@@ -280,7 +284,7 @@ class Spinner {
      * @returns {void}
      */
     stop(text) {
-        if (this.started === false) {
+        if (!this.verbose || this.started === false) {
             return;
         }
 
@@ -288,10 +292,7 @@ class Spinner {
             this[symText] = text;
         }
         this.started = false;
-
-        if (this.verbose === true) {
-            clearInterval(this.interval);
-        }
+        clearInterval(this.interval);
     }
 
     /**
@@ -303,10 +304,12 @@ class Spinner {
      * @returns {void}
      */
     succeed(text) {
-        this.stop(text);
-        if (this.verbose === true) {
-            this.renderLine(logSymbols.success);
+        if (!this.verbose) {
+            return;
         }
+
+        this.stop(text);
+        this.renderLine(logSymbols.success);
         Spinner.emitter.emit("succeed");
     }
 
@@ -319,10 +322,12 @@ class Spinner {
      * @returns {void}
      */
     failed(text) {
-        this.stop(text);
-        if (this.verbose === true) {
-            this.renderLine(logSymbols.error);
+        if (!this.verbose) {
+            return;
         }
+
+        this.stop(text);
+        this.renderLine(logSymbols.error);
         Spinner.emitter.emit("failed");
     }
 }
