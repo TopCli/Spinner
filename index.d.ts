@@ -22,7 +22,9 @@ declare class Spinner{
     public text: string;
     public color: string;
     public started: boolean;
+    public startTime: number;
     public stream: TTY.WriteStream;
+    public readonly elapsedTime: number;
 
     // Methods
     private lineToRender(symbol?: string): string;

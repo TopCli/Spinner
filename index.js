@@ -3,6 +3,7 @@
 // Require Node.js Dependencies
 const { promisify } = require("util");
 const { EventEmitter, once } = require("events");
+const { performance } = require("perf_hooks");
 
 // Require Third-party Dependencies
 const is = require("@slimio/is");
@@ -59,11 +60,22 @@ class Spinner {
         this.emitter = new EventEmitter();
         this.stream = process.stdout;
         this.started = false;
+        this.startTime = performance.now();
 
         once(this.emitter, "start").then(() => {
             this.spinnerPos = Spinner.count;
             Spinner.count++;
         }).catch(console.error);
+    }
+
+    /**
+     * @public
+     * @memberof Spinner#
+     * @member {number} elapsedTime
+     * @returns {number}
+     */
+    get elapsedTime() {
+        return performance.now() - this.startTime;
     }
 
     /**
@@ -259,6 +271,7 @@ class Spinner {
             this[symText] = text;
         }
         this.started = true;
+        this.startTime = performance.now();
         this.emitter.emit("start");
         setImmediate(() => Spinner.emitter.emit("start"));
 
