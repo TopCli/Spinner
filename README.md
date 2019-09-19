@@ -35,15 +35,15 @@ const Spinner = require("@slimio/async-cli-spinner");
 async function fnWithSpinner(prefixText, succeed = true) {
     const spinner = new Spinner({ prefixText }).start("Start working!");
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     spinner.text = "Work in progress...";
 
     if (succeed === true) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         spinner.succeed("All done !");
     }
     else {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         spinner.failed("Something wrong happened !");
     }
 }
@@ -54,11 +54,34 @@ Spinner.startAll([
     Spinner.create(fnWithSpinner, "Item 1"),
     Spinner.create(fnWithSpinner, "Item 2", false)
 ])
-    .then(() => console.log("All spinners finished!"))
-    .catch(console.error);
+.then(() => console.log("All spinners finished!"))
+.catch(console.error);
 ```
 
 ## API
+
+Spinner line structure : `${spinner} ${prefixText} - ${text}`
+
+Properties :
+```ts
+declare namespace Spinner {
+    public spinner: cliSpinners.Spinner;
+    public prefixText: string;
+    public text: string;
+    public color: string;
+    public started: boolean;
+    public startTime: number;
+    public stream: TTY.WriteStream;
+    public readonly elapsedTime: number;
+}
+```
+
+- `spinner`: spinner type (default: `"dots"`)
+- `prefixText`: mostly used to differentiate each spinner
+- `text`: you can change text at any moment.
+- `color`: spinner color
+- `elapsedTime`: time elapsed since start() call
+
 
 <details><summary>constructor(options?: Spinner.options)</summary>
 <br>
@@ -113,21 +136,70 @@ declare namespace Spinner {
 
 <details><summary>static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any]</summary>
 <br>
-This method allow to pass arguments to our spinner function. This method prevent execute function before some throw errors.
+This method allow to pass arguments to our spinner function. This method prevent execute function to early.
 </details>
 
 -------------------------------------------------
 
 <details><summary>start(text?: string): Spinner</summary>
+
 Start the spinner in the CLI and write the text passed in param.
+```js
+const Spinner = require("@slimio/async-cli-spinner");
+
+async function fnWithSpinner() {
+    const spinner = new Spinner().start("Start working!");
+}
+
+Spinner.startAll([
+    fnWithSpinner
+])
+.then(() => console.log("All spinners finished!"))
+.catch(console.error);
+```
 </details>
 
 <details><summary>succeed(text?: string): void</summary>
+
 Stop the spinner in the CLI, write the text passed in param and mark it as succeed with a symbol.
+```js
+const Spinner = require("@slimio/async-cli-spinner");
+
+async function fnWithSpinner() {
+    const spinner = new Spinner().start("Start working!");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.succeed("All done !");
+}
+
+Spinner.startAll([
+    fnWithSpinner
+])
+.then(() => console.log("All spinners finished!"))
+.catch(console.error);
+```
 </details>
 
 <details><summary>failed(text?: string): void</summary>
+
 Stop the spinner in the CLI, write the text passed in param and mark it as failed with a symbol.
+
+```js
+const Spinner = require("@slimio/async-cli-spinner");
+
+async function fnWithSpinner() {
+    const spinner = new Spinner().start("Start working!");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.failed("Something wrong happened !");
+}
+
+Spinner.startAll([
+    fnWithSpinner
+])
+.then(() => console.log("All spinners finished!"))
+.catch(console.error);
+```
 </details>
 <br>
 
