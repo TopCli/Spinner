@@ -29,21 +29,24 @@ $ yarn add @slimio/async-cli-spinner
 ```
 
 ## Usage example
+Create and wait multiple spinner at a time.
 ```js
+const { promisify } = require("util");
 const Spinner = require("@slimio/async-cli-spinner");
+
+const sleep = promisify(setTimeout);
 
 async function fnWithSpinner(prefixText, succeed = true) {
     const spinner = new Spinner({ prefixText }).start("Start working!");
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await sleep(1000);
     spinner.text = "Work in progress...";
+    await sleep(1000);
 
-    if (succeed === true) {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        spinner.succeed("All done !");
+    if (succeed) {
+        spinner.succeed(`All done in ${spinner.elapsedTime.toFixed(2)}ms !`);
     }
     else {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         spinner.failed("Something wrong happened !");
     }
 }
@@ -57,6 +60,19 @@ Spinner.startAll([
 .then(() => console.log("All spinners finished!"))
 .catch(console.error);
 ```
+
+If you want to only achieve one Spinner by one Spinner, use it like Ora (it will work)
+```js
+const spinner = new Spinner().start("Start working!");
+
+await sleep(1000);
+spinner.text = "Work in progress...";
+
+await sleep(1000);
+spinner.succeed("All done !");
+```
+
+> 👀 When you are working on a CLI that can be used as an API too, the **verbose** option allow you to disable the Spinner.
 
 ## API
 
@@ -85,9 +101,9 @@ declare namespace Spinner {
 
 <details><summary>constructor(options?: Spinner.options)</summary>
 <br>
-Create a new Spinner object.
 
-Options is described by the following TypeScript interface :
+Create a new Spinner object. **options** is described by the following TypeScript interface:
+
 ```ts
 declare namespace Spinner {
     interface spinnerObj {
