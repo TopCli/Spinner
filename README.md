@@ -136,7 +136,26 @@ declare namespace Spinner {
 
 <details><summary>static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any]</summary>
 <br>
-This method allow to pass arguments to our spinner function. This method prevent execute function to early.
+This method allow to pass arguments to our spinner function. This method prevent execute function to earlier.
+
+```js
+async function fnWithSpinner(prefixText) {
+    const spinner = new Spinner({ prefixText }).start("Start working!");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.text = "Work in progress...";
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    spinner.succeed("All done !");
+}
+
+Spinner.startAll([
+    fnWithSpinner("Item 1"), // <-- Wrong, it's executed directly, not in startAll
+    Spinner.create(fnWithSpinner, "Item 2") // <-- What you should do
+])
+.then(() => console.log("All spinners finished!"))
+.catch(console.error);
+```
 </details>
 
 -------------------------------------------------
