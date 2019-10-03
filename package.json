@@ -54,7 +54,7 @@
         "@commitlint/config-conventional": "^8.0.0",
         "@escommunity/minami": "^1.0.0",
         "@slimio/eslint-config": "^3.0.2",
-        "@slimio/psp": "^0.7.0",
+        "@slimio/psp": "^0.8.0",
         "ava": "^2.2.0",
         "c8": "^5.0.1",
         "cross-env": "^5.2.0",
