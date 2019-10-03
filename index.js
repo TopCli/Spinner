@@ -89,7 +89,7 @@ class Spinner {
         if (!is.string(value)) {
             throw new TypeError("text must be a type of string");
         }
-        this[symText] = value;
+        this[symText] = value.replace("\n", "");
     }
 
     /**
@@ -108,7 +108,7 @@ class Spinner {
      * @param {string} value Spinner prefix text
      */
     set prefixText(value) {
-        this[symPrefixText] = is.string(value) ? `${value} - ` : "";
+        this[symPrefixText] = is.string(value) ? `${value.replace("\n", "")} - ` : "";
     }
 
     /**
