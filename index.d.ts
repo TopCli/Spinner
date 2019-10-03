@@ -37,6 +37,8 @@ declare class Spinner{
 }
 
 declare namespace Spinner {
+    type RecapSet = "none" | "error" | "always";
+
     interface Configuration {
         spinner?: cliSpinners.Spinner | cliSpinners.SpinnerName;
         text?: string;
@@ -46,8 +48,8 @@ declare namespace Spinner {
     }
 
     interface startOpt {
-        recap?: true;
-        rejects?: true;
+        recap?: RecapSet;
+        rejects?: boolean;
     }
 
     type Handler = () => Promise<any>

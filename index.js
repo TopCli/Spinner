@@ -20,6 +20,7 @@ const logSymbols = require("./src/logSymbols");
 // CONSTANT
 const DEFAULT_WIN_SPINNER = "line";
 const LINE_JUMP = 1;
+const recapSetOpt = new Set(["none", "error", "always"]);
 
 // Symbol
 const symSpinner = Symbol("spinner");
@@ -371,8 +372,13 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
         }
     }
 
-    const recapOpt = is.boolean(options.recap) ? options.recap : true;
+    if (!is.nullOrUndefined(options.recap) && !recapSetOpt.has(options.recap)) {
+        throw new Error(`recap option must be ${[...recapSetOpt].join("|")}`);
+    }
+
+    const recapOpt = recapSetOpt.has(options.recap) ? options.recap : "always";
     const rejectOpt = is.boolean(options.rejects) ? options.rejects : true;
+    let recap = recapOpt === "always";
     let [started, finished, failed] = [0, 0, 0];
 
     /**
@@ -381,8 +387,8 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
      */
     function writeRecap() {
         const col = process.stdout.columns;
-        const recap = `${finished} / ${functions.length} : with ${failed} failed`;
-        const displayRecap = recap.length > col ? recap.slice(0, col) : recap;
+        const recapStr = `${finished} / ${functions.length} : with ${failed} failed`;
+        const displayRecap = recapStr.length > col ? recapStr.slice(0, col) : recapStr;
 
         process.stdout.moveCursor(0, LINE_JUMP);
         process.stdout.clearLine();
@@ -393,7 +399,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
 
     Spinner.emitter.on("start", () => {
         started++;
-        if (started === functions.length && recapOpt === true) {
+        if (started === functions.length && recap === true) {
             console.log("\n".repeat(LINE_JUMP - 1));
             process.stdout.moveCursor(0, -LINE_JUMP);
             writeRecap();
@@ -402,7 +408,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
 
     Spinner.emitter.on("succeed", () => {
         finished++;
-        if (started === functions.length && recapOpt === true) {
+        if (started === functions.length && recap === true) {
             writeRecap();
         }
     });
@@ -410,8 +416,8 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
     Spinner.emitter.on("failed", () => {
         finished++;
         failed++;
-
-        if (started === functions.length && recapOpt === true) {
+        recap = recapOpt === "error" || recapOpt === "always";
+        if (started === functions.length && recap === true) {
             writeRecap();
         }
     });
@@ -431,7 +437,7 @@ Spinner.startAll = async function(functions, options = Object.create(null)) {
     );
 
     await setImmediateAsync();
-    if (recapOpt === true) {
+    if (recap === true) {
         writeRecap();
         process.stdout.moveCursor(0, LINE_JUMP + 1);
     }

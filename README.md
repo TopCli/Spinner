@@ -142,12 +142,15 @@ Start all functions with spinners passed in array.
 Options is described by the following TypeScript interface:
 ```ts
 declare namespace Spinner {
+    type RecapSet = "none" | "error" | "always";
+
     interface startOpt {
-        recap: true;
-        rejects: true;
+        recap: RecapSet;
+        rejects: boolean;
     }
 }
 ```
+> Default recap : `always`
 </details>
 
 <details><summary>static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any]</summary>
