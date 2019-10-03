@@ -90,7 +90,7 @@ class Spinner {
         if (!is.string(value)) {
             throw new TypeError("text must be a type of string");
         }
-        this[symText] = value.replace("\n", "");
+        this[symText] = value.replace(/\r?\n|\r/, "");
     }
 
     /**
@@ -109,7 +109,7 @@ class Spinner {
      * @param {string} value Spinner prefix text
      */
     set prefixText(value) {
-        this[symPrefixText] = is.string(value) ? `${value.replace("\n", "")} - ` : "";
+        this[symPrefixText] = is.string(value) ? `${value.replace(/\r?\n|\r/, "")} - ` : "";
     }
 
     /**
@@ -269,7 +269,7 @@ class Spinner {
             return this;
         }
         if (!is.nullOrUndefined(text)) {
-            this[symText] = text;
+            this.text = text;
         }
         this.started = true;
         this.startTime = performance.now();
@@ -297,7 +297,7 @@ class Spinner {
         }
 
         if (!is.nullOrUndefined(text)) {
-            this[symText] = text;
+            this.text = text;
         }
         this.started = false;
         clearInterval(this.interval);
