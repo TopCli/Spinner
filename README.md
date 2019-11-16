@@ -16,7 +16,7 @@ All available spinners are part of [cli-spinners](https://github.com/sindresorhu
 </p>
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) v11 or higher
+- [Node.js](https://nodejs.org/en/) v12 or higher
 
 ## Getting Started
 

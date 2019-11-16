@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - "10"
+    - "12"
 after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
