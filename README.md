@@ -5,7 +5,8 @@
 ![dep](https://img.shields.io/david/SlimIO/Async-cli-spinner.svg)
 ![size](https://img.shields.io/bundlephobia/min/@slimio/async-cli-spinner.svg)
 [![Known Vulnerabilities](https://snyk.io//test/github/SlimIO/Async-cli-spinner/badge.svg?targetFile=package.json)](https://snyk.io//test/github/SlimIO/Async-cli-spinner?targetFile=package.json)
-[![Build Status](https://travis-ci.com/SlimIO/Async-cli-spinner.svg?branch=master)](https://travis-ci.com/SlimIO/Async-cli-spinner) [![Greenkeeper badge](https://badges.greenkeeper.io/SlimIO/Async-cli-spinner.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.com/SlimIO/Async-cli-spinner.svg?branch=master)](https://travis-ci.com/SlimIO/Async-cli-spinner)
+[![Greenkeeper badge](https://badges.greenkeeper.io/SlimIO/Async-cli-spinner.svg)](https://greenkeeper.io/)
 
 Asynchronous CLI Spinner. This package has been created to handle simultaneous/multiple spinner at a time. The package has been inspired by [Ora](https://github.com/sindresorhus/ora) but in Asynchronous.
 
