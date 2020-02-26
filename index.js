@@ -50,18 +50,18 @@ class Spinner {
      */
     constructor(options = Object.create(null)) {
         this.verbose = is.boolean(options.verbose) ? options.verbose : true;
+        this.startTime = performance.now();
         if (!this.verbose) {
             return;
         }
+
         this.spinner = options.spinner;
         this.prefixText = options.prefixText;
         this.text = is.string(options.text) ? options.text : "";
         this.color = options.color;
-
         this.emitter = new EventEmitter();
         this.stream = process.stdout;
         this.started = false;
-        this.startTime = performance.now();
 
         once(this.emitter, "start").then(() => {
             this.spinnerPos = Spinner.count;
