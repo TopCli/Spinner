@@ -5,9 +5,9 @@
     "main": "index.js",
     "scripts": {
         "prepublishOnly": "pkg-ok",
-        "test": "cross-env psp && ava --verbose",
+        "test": "cross-env psp && c8 -r=\"lcov\" ava --verbose",
         "doc": "jsdoc -c ./jsdoc.json -r -R ./README.md -P ./package.json --verbose",
-        "coverage": "c8 -r=\"html\" npm test"
+        "coverage": "codecov"
     },
     "repository": {
         "type": "git",
@@ -57,6 +57,7 @@
         "@slimio/psp": "^0.11.1",
         "ava": "^3.8.2",
         "c8": "^7.1.2",
+        "codecov": "^3.7.0",
         "cross-env": "^7.0.2",
         "eslint": "^7.0.0",
         "husky": "^4.2.5",
