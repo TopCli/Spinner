@@ -72,13 +72,5 @@
             "pre-push": "cross-env eslint index.js && npm test",
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
-    },
-    "nyc": {
-        "check-coverage": true,
-        "per-file": false,
-        "lines": 98,
-        "statements": 98,
-        "functions": 98,
-        "branches": 90
     }
 }
