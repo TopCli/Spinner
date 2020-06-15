@@ -1,76 +1,80 @@
 {
-    "name": "@slimio/async-cli-spinner",
-    "version": "0.5.2",
-    "description": "Asynchronous CLI Spinner. Allow to create and manage simultaneous/multiple spinners at a time.",
-    "main": "index.js",
-    "scripts": {
-        "prepublishOnly": "pkg-ok",
-        "test": "cross-env psp && c8 -r=\"lcov\" ava --verbose",
-        "doc": "jsdoc -c ./jsdoc.json -r -R ./README.md -P ./package.json --verbose",
-        "coverage": "codecov"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/SlimIO/async-cli-spinner.git"
-    },
-    "keywords": [
-        "CLI",
-        "SlimIO",
-        "multiple",
-        "simultaneous",
-        "async",
-        "asynchronous",
-        "spinner",
-        "spinners",
-        "ora",
-        "listr",
-        "terminal",
-        "term",
-        "console",
-        "progress"
-    ],
-    "files": [
-        "index.js",
-        "index.d.ts",
-        "src/logSymbols.js"
-    ],
-    "author": "SlimIO",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/SlimIO/async-cli-spinner/issues"
-    },
-    "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
-    "dependencies": {
-        "@slimio/is": "^1.5.0",
-        "@slimio/wcwidth": "^1.0.0",
-        "ansi-regex": "^5.0.0",
-        "cli-cursor": "^3.0.0",
-        "cli-spinners": "^2.3.0",
-        "kleur": "^3.0.3",
-        "strip-ansi": "^6.0.0"
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^8.3.5",
-        "@commitlint/config-conventional": "^8.3.4",
-        "@escommunity/minami": "^1.0.0",
-        "@slimio/eslint-config": "^4.1.0",
-        "@slimio/psp": "^0.11.1",
-        "ava": "^3.8.2",
-        "c8": "^7.1.2",
-        "codecov": "^3.7.0",
-        "cross-env": "^7.0.2",
-        "eslint": "^7.0.0",
-        "husky": "^4.2.5",
-        "jsdoc": "^3.6.4",
-        "pkg-ok": "^2.3.1"
-    },
-    "engines": {
-        "node": ">=12"
-    },
-    "husky": {
-        "hooks": {
-            "pre-push": "cross-env eslint index.js && npm test",
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-        }
+  "name": "@slimio/async-cli-spinner",
+  "version": "0.5.2",
+  "description": "Asynchronous CLI Spinner. Allow to create and manage simultaneous/multiple spinners at a time.",
+  "main": "index.js",
+  "scripts": {
+    "prepublishOnly": "pkg-ok",
+    "test": "cross-env psp && c8 -r=\"lcov\" ava --verbose",
+    "doc": "jsdoc -c ./jsdoc.json -r -R ./README.md -P ./package.json --verbose",
+    "coverage": "codecov",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlimIO/async-cli-spinner.git"
+  },
+  "keywords": [
+    "CLI",
+    "SlimIO",
+    "multiple",
+    "simultaneous",
+    "async",
+    "asynchronous",
+    "spinner",
+    "spinners",
+    "ora",
+    "listr",
+    "terminal",
+    "term",
+    "console",
+    "progress"
+  ],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "src/logSymbols.js"
+  ],
+  "author": "SlimIO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SlimIO/async-cli-spinner/issues"
+  },
+  "homepage": "https://github.com/SlimIO/async-cli-spinner#readme",
+  "dependencies": {
+    "@slimio/is": "^1.5.0",
+    "@slimio/wcwidth": "^1.0.0",
+    "ansi-regex": "^5.0.0",
+    "cli-cursor": "^3.0.0",
+    "cli-spinners": "^2.3.0",
+    "kleur": "^3.0.3",
+    "strip-ansi": "^6.0.0",
+    "snyk": "^1.340.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@escommunity/minami": "^1.0.0",
+    "@slimio/eslint-config": "^4.1.0",
+    "@slimio/psp": "^0.11.1",
+    "ava": "^3.8.2",
+    "c8": "^7.1.2",
+    "codecov": "^3.7.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.0.0",
+    "husky": "^4.2.5",
+    "jsdoc": "^3.6.4",
+    "pkg-ok": "^2.3.1"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "cross-env eslint index.js && npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "snyk": true
 }
