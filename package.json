@@ -46,7 +46,7 @@
         "ansi-regex": "^5.0.0",
         "cli-cursor": "^3.0.0",
         "cli-spinners": "^2.3.0",
-        "kleur": "^3.0.3",
+        "kleur": "^4.1.0",
         "strip-ansi": "^6.0.0"
     },
     "devDependencies": {
