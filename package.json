@@ -50,7 +50,7 @@
         "strip-ansi": "^6.0.0"
     },
     "devDependencies": {
-        "@commitlint/cli": "^11.0.0",
+        "@commitlint/cli": "^13.1.0",
         "@commitlint/config-conventional": "^11.0.0",
         "@escommunity/minami": "^1.0.0",
         "@slimio/eslint-config": "^4.1.0",
