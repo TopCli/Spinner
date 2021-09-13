@@ -43,11 +43,11 @@
     "dependencies": {
         "@slimio/is": "^1.5.0",
         "@slimio/wcwidth": "^1.0.0",
-        "ansi-regex": "^5.0.0",
+        "ansi-regex": "^6.0.1",
         "cli-cursor": "^3.0.0",
         "cli-spinners": "^2.5.0",
         "kleur": "^4.1.3",
-        "strip-ansi": "^6.0.0"
+        "strip-ansi": "^7.0.0"
     },
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",
