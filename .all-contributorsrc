@@ -4,9 +4,23 @@
   ],
   "imageSize": 100,
   "commit": false,
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "fraxken",
+      "name": "Gentilhomme",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4438263?v=4",
+      "profile": "https://www.linkedin.com/in/thomas-gentilhomme/",
+      "contributions": [
+        "code",
+        "doc",
+        "review",
+        "security",
+        "bug"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
-  "projectName": "spinner",
+  "projectName": "Spinner",
   "projectOwner": "TopCli",
   "repoType": "github",
   "repoHost": "https://github.com",
