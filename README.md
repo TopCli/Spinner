@@ -1,10 +1,10 @@
-# Async-cli-spinner
-![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/TopCli/Async-cli-spinner/master/package.json&query=$.version&label=Version)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/TopCli/Async-cli-spinner/commit-activity)
+# Spinner
+![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/TopCli/Spinner/master/package.json&query=$.version&label=Version)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/TopCli/Spinner/commit-activity)
 [![Security Responsible Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md
 )
-[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/TopCli/Async-cli-spinner/blob/master/LICENSE)
-![build](https://img.shields.io/github/workflow/status/TopCli/Async-cli-spinner/Node.js%20CI)
+[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/TopCli/Spinner/blob/master/LICENSE)
+![build](https://img.shields.io/github/workflow/status/TopCli/Spinner/Node.js%20CI)
 
 Asynchronous CLI Spinner. This package has been created to handle simultaneous/multiple spinner at a time. The package has been inspired by [Ora](https://github.com/sindresorhus/ora) but in Asynchronous.
 

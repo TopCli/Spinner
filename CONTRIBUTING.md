@@ -17,7 +17,7 @@ The TopCli project has a
 that *all* contributors are expected to follow. This code describes the
 *minimum* behavior expectations for all contributors.
 
-See [details on our policy on Code of Conduct](https://github.com/SlimIO/Governance/blob/master/COC_POLICY.md).
+See [details on our policy on Code of Conduct](https://github.com/TopCli/Governance/blob/master/COC_POLICY.md).
 
 <a id="developers-certificate-of-origin"></a>
 ## Developer's Certificate of Origin 1.1
