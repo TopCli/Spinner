@@ -1,3 +1,7 @@
 {
-    "extends": "@slimio/eslint-config"
+  "extends": "@nodesecure/eslint-config",
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false
+  }
 }

@@ -1,6 +1,7 @@
 // Require Third-party Dependencies
-const avaTest = require("ava");
+import test from "tape";
 
-avaTest("Husky passed Test", (assert) => {
-    assert.pass();
+test("Default test", (tape) => {
+  tape.is(1, 1);
+  tape.end();
 });

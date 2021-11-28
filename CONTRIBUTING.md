@@ -1,19 +1,19 @@
-# Contributing to Slim.io
+# Contributing to TopCli
 
-Contributions to Slim.io include code, documentation, answering user questions,
-running the project's infrastructure, and advocating for all types of Slim.io
+Contributions to TopCli include code, documentation, answering user questions,
+running the project's infrastructure, and advocating for all types of TopCli
 users.
 
-The Slim.io project welcomes all contributions from anyone willing to work in
+The TopCli project welcomes all contributions from anyone willing to work in
 good faith with other contributors and the community. No contribution is too
 small and all contributions are valued.
 
-This guide explains the process for contributing to the Slim.io project's.
+This guide explains the process for contributing to the TopCli project's.
 
-## [Code of Conduct](https://github.com/SlimIO/Governance/blob/master/CODE_OF_CONDUCT.md)
+## [Code of Conduct](https://github.com/TopCli/Governance/blob/master/CODE_OF_CONDUCT.md)
 
-The Slim.io project has a
-[Code of Conduct](https://github.com/SlimIO/Governance/blob/master/CODE_OF_CONDUCT.md)
+The TopCli project has a
+[Code of Conduct](https://github.com/TopCli/Governance/blob/master/CODE_OF_CONDUCT.md)
 that *all* contributors are expected to follow. This code describes the
 *minimum* behavior expectations for all contributors.
 
