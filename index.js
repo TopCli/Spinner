@@ -16,7 +16,6 @@ import kleur from "kleur";
 import logSymbols from "./src/logSymbols.js";
 
 // CONSTANT
-const DEFAULT_WIN_SPINNER = "line";
 const LINE_JUMP = 1;
 const recapSetOpt = new Set(["none", "error", "always"]);
 
@@ -32,7 +31,7 @@ const symColor = Symbol("color");
  * @property {number} interval interval between each frame
  */
 
-class Spinner {
+export default class Spinner {
   /**
    * @class Spinner
    * @memberof Spinner#
@@ -471,5 +470,3 @@ Spinner.DEFAULT_SPINNER = "dots";
 Spinner.count = 0;
 Spinner.emitter = new EventEmitter();
 Object.preventExtensions(Spinner);
-
-module.exports = Spinner;
