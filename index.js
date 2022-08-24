@@ -2,6 +2,7 @@
 import { EventEmitter, once } from "events";
 import { performance } from "perf_hooks";
 import * as timers from "timers/promises";
+import readline from "readline";
 
 // Import Third-party Dependencies
 import is from "@slimio/is";
@@ -241,12 +242,12 @@ export default class Spinner {
    */
   renderLine(symbol) {
     const moveCursorPos = Spinner.count - this.spinnerPos;
-    this.stream.moveCursor(0, -moveCursorPos);
+    readline.moveCursor(this.stream, 0, -moveCursorPos);
 
     const line = this.lineToRender(symbol);
-    this.stream.clearLine();
+    readline.clearLine(this.stream);
     this.stream.write(line);
-    this.stream.moveCursor(-line.length, moveCursorPos);
+    readline.moveCursor(this.stream, -line.length, moveCursorPos);
   }
 
   /**
@@ -382,10 +383,10 @@ Spinner.startAll = async function startAll(functions, options = Object.create(nu
     const recapStr = `${finished} / ${functions.length} : with ${failed} failed`;
     const displayRecap = recapStr.length > col ? recapStr.slice(0, col) : recapStr;
 
-    process.stdout.moveCursor(0, LINE_JUMP);
-    process.stdout.clearLine();
+    readline.moveCursor(process.stdout, 0, LINE_JUMP);
+    readline.clearLine(process.stdout);
     process.stdout.write(displayRecap);
-    process.stdout.moveCursor(-displayRecap.length, -LINE_JUMP);
+    readline.moveCursor(process.stdout, -displayRecap.length, -LINE_JUMP);
   }
 
 
@@ -393,7 +394,7 @@ Spinner.startAll = async function startAll(functions, options = Object.create(nu
     started++;
     if (started === functions.length && recap === true) {
       console.log("\n".repeat(LINE_JUMP - 1));
-      process.stdout.moveCursor(0, -LINE_JUMP);
+      readline.moveCursor(process.stdout, 0, -LINE_JUMP);
       writeRecap();
     }
   });
@@ -431,7 +432,7 @@ Spinner.startAll = async function startAll(functions, options = Object.create(nu
   await timers.setImmediate();
   if (recap === true) {
     writeRecap();
-    process.stdout.moveCursor(0, LINE_JUMP + 1);
+    readline.moveCursor(process.stdout, 0, LINE_JUMP + 1);
   }
 
   if (rejectOpt === true && rejects.length > 0) {

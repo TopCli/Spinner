@@ -30,15 +30,15 @@ $ yarn add @topcli/spinner
 ## Usage example
 Create and wait multiple spinner at a time.
 ```js
-import { setTimeout: sleep } from "timers/promises";
+import * as timers from "node:timers/promises";
 import Spinner from "@topcli/spinner";
 
 async function fnWithSpinner(prefixText, succeed = true) {
     const spinner = new Spinner({ prefixText }).start("Start working!");
 
-    await sleep(1000);
+    await timers.setTimeout(1000);
     spinner.text = "Work in progress...";
-    await sleep(1000);
+    await timers.setTimeout(1000);
 
     if (succeed) {
         spinner.succeed(`All done in ${spinner.elapsedTime.toFixed(2)}ms !`);
