@@ -1,5 +1,3 @@
-// Note: clean re-implementation of https://github.com/sindresorhus/log-symbols
-
 // Import Third-party Dependency
 import kleur from "kleur";
 

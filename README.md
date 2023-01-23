@@ -32,9 +32,9 @@ Create and wait multiple spinner at a time.
 import * as timers from "node:timers/promises";
 import { Spinner } from "@topcli/spinner";
 
-async function fnWithSpinner(prefixText, succeed = true) {
-    const spinner = new Spinner({ prefixText })
-      .start("Start working!");
+async function fnWithSpinner(withPrefix, succeed = true) {
+    const spinner = new Spinner()
+      .start("Start working!", { withPrefix });
 
     await timers.setTimeout(1000);
     spinner.text = "Work in progress...";
@@ -72,34 +72,53 @@ spinner.succeed("All done !");
 
 ## API
 
-For a complete interface of the Spinner class please check the root `index.d.ts` file.
-
 <details><summary>constructor(options?: ISpinnerOptions)</summary>
 <br>
 
 Create a new Spinner. The **options** payload is described by the following TypeScript interface:
 
 ```ts
-interface ISpinnerOptions {
-  spinner?: cliSpinners.Spinner | cliSpinners.SpinnerName;
-  text?: string;
-  prefixText?: string;
+export interface ISpinnerOptions {
+  /**
+   * Spinner name (from cli-spinners lib)
+   *
+   * @default "dots"
+   */
+  name?: cliSpinners.SpinnerName;
+  /**
+   * Spinner frame color
+   *
+   * @default "white"
+   */
   color?: string;
+  /**
+   * Do not log anything when disabled
+   *
+   * @default true
+   */
   verbose?: boolean;
 }
 ```
 
-> 👀 Look [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for all kind of available spinners.
+> 👀 Check [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for all the spinner name.
 
 ```js
-new Spinner({ spinner: "dots" });
+new Spinner({ name: "dots2" });
 ```
 
 </details>
 
-<details><summary>start(text?: string): Spinner</summary>
+<details><summary>start(text?: string, options?: IStartOptions): Spinner</summary>
 
-Start the spinner in the CLI and write the text passed in param.
+Start the spinner and optionaly write the text passed as first parameter.
+
+The **options** payload is described by the following TypeScript interface:
+
+```ts
+export interface IStartOptions {
+  withPrefix?: string;
+}
+```
 
 </details>
 

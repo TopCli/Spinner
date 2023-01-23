@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import is from "@slimio/is";
 
 // Import Internal Dependencies
-import { Spinner } from "../index.js";
+import { Spinner } from "../src/index.js";
 
 describe("Spinner", () => {
   it("should export a JavaScript class", () => {
