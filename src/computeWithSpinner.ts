@@ -5,21 +5,21 @@ import { Spinner, ISpinnerOptions } from "./Spinner.class.js";
 // eslint-disable-next-line func-style
 const kDefaultSafeLogger = () => undefined;
 
-export interface ISafeSpinnerOptions {
+export interface IComputeSpinnerOptions {
   text: string;
   spinner?: Omit<ISpinnerOptions, "verbose">;
   withPrefix?: string;
 }
 
-export interface ISafeSpinnerLogs {
+export interface ISpinnerLoggerOptions {
   success?: (elapsedTime: number) => string;
   fail?: (error: Error) => string;
 }
 
-export async function SafeSpinner<T = void>(
+export async function computeWithSpinner<T = void>(
   asynchronousOp: (spinner: Spinner) => Promise<T>,
-  options: ISafeSpinnerOptions,
-  logs: ISafeSpinnerLogs = {}
+  options: IComputeSpinnerOptions,
+  logs: ISpinnerLoggerOptions = {}
 ): Promise<T> {
   const { success = kDefaultSafeLogger, fail = kDefaultSafeLogger } = logs;
   const spinner = new Spinner(options.spinner)
