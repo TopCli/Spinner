@@ -11,15 +11,14 @@ import ansiRegex from "ansi-regex";
 import wcwidth from "@topcli/wcwidth";
 import kleur from "kleur";
 
-// Import Internal Dependencies
-import logSymbols from "./logSymbols.js";
-import * as utils from "./utils.js";
-
 // VARS
 let internalSpinnerCount = 0;
 
 // CONSTANTS
 const kDefaultSpinnerName = "dots" satisfies cliSpinners.SpinnerName;
+const kLogSymbols = process.platform !== "win32" || process.env.CI || process.env.TERM === "xterm-256color" ?
+  { success: kleur.green("✔"), error: kleur.red("✖") } :
+  { success: kleur.green("√"), error: kleur.red("×") };
 
 export interface ISpinnerOptions {
   /**
@@ -105,7 +104,7 @@ export class Spinner extends EventEmitter {
 
   set text(value: string | undefined) {
     if (typeof value == "string") {
-      this.#text = utils.cleanLineFeed(value);
+      this.#text = value.replaceAll(/\r?\n|\r/gm, "");
     }
   }
 
@@ -198,7 +197,7 @@ export class Spinner extends EventEmitter {
   succeed(text?: string) {
     if (this.#started) {
       this.#stop(text);
-      this.#renderLine(logSymbols.success);
+      this.#renderLine(kLogSymbols.success);
       this.emit("succeed");
     }
 
@@ -208,7 +207,7 @@ export class Spinner extends EventEmitter {
   failed(text?: string) {
     if (this.#started) {
       this.#stop(text);
-      this.#renderLine(logSymbols.error);
+      this.#renderLine(kLogSymbols.error);
       this.emit("failed");
     }
 
