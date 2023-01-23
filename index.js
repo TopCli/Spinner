@@ -32,7 +32,7 @@ const symColor = Symbol("color");
  * @property {number} interval interval between each frame
  */
 
-export default class Spinner {
+export class Spinner {
   /**
    * @class Spinner
    * @memberof Spinner#
@@ -470,4 +470,3 @@ Spinner.create = function create(fn, ...args) {
 Spinner.DEFAULT_SPINNER = "dots";
 Spinner.count = 0;
 Spinner.emitter = new EventEmitter();
-Object.preventExtensions(Spinner);

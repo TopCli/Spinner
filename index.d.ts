@@ -5,15 +5,37 @@ import * as TTY from "tty";
 import * as events from "events";
 import * as cliSpinners from "cli-spinners";
 
+export {
+  Spinner,
+  ISpinnerOptions,
+  IStartAllOptions,
+  SpinnerHandler
+};
+
+interface ISpinnerOptions {
+  spinner?: cliSpinners.Spinner | cliSpinners.SpinnerName;
+  text?: string;
+  prefixText?: string;
+  color?: string;
+  verbose?: boolean;
+}
+
+interface IStartAllOptions {
+  recap?: "none" | "error" | "always";
+  rejects?: boolean;
+}
+
+type SpinnerHandler = () => Promise<any>
+
 declare class Spinner {
   static count: number;
   static emitter: events.EventEmitter;
   static DEFAULT_SPINNER: Spinner.spinners;
 
-  static startAll(functions: Spinner.Handler[], options?: Spinner.startOpt): Promise<any[]>;
-  static create(fn: Spinner.Handler, args?: any): Spinner.Handler | [Spinner.Handler, ...any];
+  static startAll(functions: SpinnerHandler[], options?: IStartAllOptions): Promise<any[]>;
+  static create(fn: SpinnerHandler, args?: any): SpinnerHandler | [SpinnerHandler, ...any];
 
-  constructor(options?: Spinner.Configuration);
+  constructor(options?: ISpinnerOptions);
 
   // Properties
   private emitter: events.EventEmitter;
@@ -35,25 +57,3 @@ declare class Spinner {
   public succeed(text?: string): void;
   public failed(text?: string): void;
 }
-
-declare namespace Spinner {
-  type RecapSet = "none" | "error" | "always";
-
-  interface Configuration {
-    spinner?: cliSpinners.Spinner | cliSpinners.SpinnerName;
-    text?: string;
-    prefixText?: string;
-    color?: string;
-    verbose?: boolean;
-  }
-
-  interface startOpt {
-    recap?: RecapSet;
-    rejects?: boolean;
-  }
-
-  type Handler = () => Promise<any>
-}
-
-export as namespace Spinner;
-export = Spinner;
