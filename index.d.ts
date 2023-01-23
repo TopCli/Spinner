@@ -3,57 +3,42 @@
 
 import * as TTY from "tty";
 import * as events from "events";
-import * as cliSpinners from "cli-spinners";
-
-export {
-  Spinner,
-  ISpinnerOptions,
-  IStartAllOptions,
-  SpinnerHandler
-};
+import cliSpinners from "cli-spinners";
 
 interface ISpinnerOptions {
+  /**
+   * Spinner object or spinner name (from cli-spinners lib)
+   *
+   * @default "dots"
+   */
   spinner?: cliSpinners.Spinner | cliSpinners.SpinnerName;
   text?: string;
-  prefixText?: string;
+  prefix?: string;
   color?: string;
   verbose?: boolean;
 }
 
-interface IStartAllOptions {
-  recap?: "none" | "error" | "always";
-  rejects?: boolean;
-}
-
-type SpinnerHandler = () => Promise<any>
-
-declare class Spinner {
-  static count: number;
-  static emitter: events.EventEmitter;
-  static DEFAULT_SPINNER: Spinner.spinners;
-
-  static startAll(functions: SpinnerHandler[], options?: IStartAllOptions): Promise<any[]>;
-  static create(fn: SpinnerHandler, args?: any): SpinnerHandler | [SpinnerHandler, ...any];
+declare class Spinner extends events.EventEmitter {
+  static reset(): void;
 
   constructor(options?: ISpinnerOptions);
 
-  // Properties
-  private emitter: events.EventEmitter;
-  public spinner: cliSpinners.Spinner;
-  public prefixText: string;
   public text: string;
-  public color: string;
-  public started: boolean;
-  public startTime: number;
   public stream: TTY.WriteStream;
+  public readonly color: string;
   public readonly elapsedTime: number;
+  public readonly startTime: number;
+  public readonly started: boolean;
 
-  // Methods
-  private lineToRender(symbol?: string): string;
-  private renderLine(symbol?: string): void;
-  private stop(text?: string): void;
+  get spinner(): cliSpinners.Spinner;
+  set spinner(value: cliSpinners.Spinner | cliSpinners.SpinnerName);
 
   public start(text?: string): Spinner;
-  public succeed(text?: string): void;
-  public failed(text?: string): void;
+  public succeed(text?: string): Spinner;
+  public failed(text?: string): Spinner;
 }
+
+export {
+  Spinner,
+  ISpinnerOptions
+};

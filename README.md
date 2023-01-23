@@ -27,12 +27,14 @@ $ yarn add @topcli/spinner
 
 ## Usage example
 Create and wait multiple spinner at a time.
+
 ```js
 import * as timers from "node:timers/promises";
-import Spinner from "@topcli/spinner";
+import { Spinner } from "@topcli/spinner";
 
 async function fnWithSpinner(prefixText, succeed = true) {
-    const spinner = new Spinner({ prefixText }).start("Start working!");
+    const spinner = new Spinner({ prefixText })
+      .start("Start working!");
 
     await timers.setTimeout(1000);
     spinner.text = "Work in progress...";
@@ -46,12 +48,12 @@ async function fnWithSpinner(prefixText, succeed = true) {
     }
 }
 
-await Spinner.startAll([
-    fnWithSpinner,
-    Spinner.create(fnWithSpinner),
-    Spinner.create(fnWithSpinner, "Item 1"),
-    Spinner.create(fnWithSpinner, "Item 2", false)
+await Promise.allSettled([
+    fnWithSpinner(),
+    fnWithSpinner("Item 1"),
+    fnWithSpinner("Item 2", false)
 ]);
+Spinner.reset(); // reset internal count
 console.log("All spinners finished!");
 ```
 
@@ -59,10 +61,10 @@ If you want to only achieve one Spinner by one Spinner, use it like Ora (it will
 ```js
 const spinner = new Spinner().start("Start working!");
 
-await sleep(1000);
+await timers.setTimeout(1_000);
 spinner.text = "Work in progress...";
 
-await sleep(1000);
+await timers.setTimeout(1_000);
 spinner.succeed("All done !");
 ```
 
@@ -70,172 +72,49 @@ spinner.succeed("All done !");
 
 ## API
 
-Spinner line structure : `${spinner} ${prefixText} - ${text}`
+For a complete interface of the Spinner class please check the root `index.d.ts` file.
 
-Properties :
-```ts
-declare namespace Spinner {
-  public spinner: cliSpinners.Spinner;
-  public prefixText: string;
-  public text: string;
-  public color: string;
-  public started: boolean;
-  public startTime: number;
-  public stream: TTY.WriteStream;
-  public readonly elapsedTime: number;
-}
-```
-
-- `spinner`: spinner type (default: `"dots"`)
-- `prefixText`: mostly used to differentiate each spinner
-- `text`: you can change text at any moment.
-- `color`: spinner color
-- `elapsedTime`: time elapsed since start() call
-
-
-<details><summary>constructor(options?: Spinner.options)</summary>
+<details><summary>constructor(options?: ISpinnerOptions)</summary>
 <br>
 
-Create a new Spinner object. **options** is described by the following TypeScript interface:
+Create a new Spinner. The **options** payload is described by the following TypeScript interface:
 
 ```ts
-declare namespace Spinner {
-  interface spinnerObj {
-    frames: string[];
-    interval: number;
-  }
-
-  interface options {
-    spinner: SpinnerObj | Spinner.spinners;
-    text: string;
-    prefixText: string;
-    color: string;
-    verbose: boolean;
-  }
+interface ISpinnerOptions {
+  spinner?: cliSpinners.Spinner | cliSpinners.SpinnerName;
+  text?: string;
+  prefixText?: string;
+  color?: string;
+  verbose?: boolean;
 }
 ```
 
 > 👀 Look [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for all kind of available spinners.
 
-Example:
 ```js
-import Spinner from "@topcli/spinner";
-
-const spinner = new Spinner();
-const dotsSpinner = new Spinner({ spinner: "dots" });
+new Spinner({ spinner: "dots" });
 ```
+
 </details>
-
-
-<details><summary>static startAll(functions: Spinner.Handler[], options?: Spinner.startOpt): Promise&ltany[]&gt</summary>
-<br>
-Start all functions with spinners passed in array.
-
-> ⚠️ Only accept functions that return a Promise.
-
-Options is described by the following TypeScript interface:
-```ts
-declare namespace Spinner {
-  type RecapSet = "none" | "error" | "always";
-
-  interface startOpt {
-    recap: RecapSet;
-    rejects: boolean;
-  }
-}
-```
-> Default recap : `always`
-</details>
-
-<details><summary>static create(fn: Spinner.Handler, args?: any): Function|[Function, ...any]</summary>
-<br>
-This method allow to pass arguments to our spinner function. This method prevent execute function to earlier.
-
-```js
-async function fnWithSpinner(prefixText) {
-  const spinner = new Spinner({ prefixText }).start("Start working!");
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  spinner.text = "Work in progress...";
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  spinner.succeed("All done !");
-}
-
-Spinner.startAll([
-  fnWithSpinner("Item 1"), // <-- Wrong, it's executed directly, not in startAll
-  Spinner.create(fnWithSpinner, "Item 2") // <-- What you should do
-])
-.then(() => console.log("All spinners finished!"))
-.catch(console.error);
-```
-</details>
-
--------------------------------------------------
 
 <details><summary>start(text?: string): Spinner</summary>
 
 Start the spinner in the CLI and write the text passed in param.
-```js
-import Spinner from "@topcli/spinner";
 
-async function fnWithSpinner() {
-  const spinner = new Spinner().start("Start working!");
-}
-
-Spinner.startAll([
-  fnWithSpinner
-])
-.then(() => console.log("All spinners finished!"))
-.catch(console.error);
-```
 </details>
 
 <details><summary>succeed(text?: string): void</summary>
 
 Stop the spinner in the CLI, write the text passed in param and mark it as succeed with a symbol.
-```js
-import Spinner from "@topcli/spinner";
 
-async function fnWithSpinner() {
-  const spinner = new Spinner().start("Start working!");
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  spinner.succeed("All done !");
-}
-
-Spinner.startAll([
-  fnWithSpinner
-])
-.then(() => console.log("All spinners finished!"))
-.catch(console.error);
-```
 </details>
 
 <details><summary>failed(text?: string): void</summary>
 
 Stop the spinner in the CLI, write the text passed in param and mark it as failed with a symbol.
 
-```js
-import Spinner from "@topcli/spinner";
-
-async function fnWithSpinner() {
-  const spinner = new Spinner().start("Start working!");
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  spinner.failed("Something wrong happened !");
-}
-
-Spinner.startAll([
-  fnWithSpinner
-])
-.then(() => console.log("All spinners finished!"))
-.catch(console.error);
-```
 </details>
 <br>
-
-> ⚠️ Functions **start()**, **succeed()** and **failed()** are supposed to be executed in a function which return a promise and will be called by Spinner.startAll().
 
 ## Contributors ✨
 
