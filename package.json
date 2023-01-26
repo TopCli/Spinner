@@ -17,7 +17,7 @@
     "prepublishOnly": "npm run build && pkg-ok",
     "test-only": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
     "test": "npm run lint && npm run coverage",
-    "coverage": "c8 -r html npm test",
+    "coverage": "c8 -r html npm run test-only",
     "lint": "cross-env eslint src/*.ts"
   },
   "repository": {
