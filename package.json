@@ -1,6 +1,6 @@
 {
   "name": "@topcli/spinner",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Asynchronous CLI Spinner. Allow to create and manage simultaneous/multiple spinners at a time.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
