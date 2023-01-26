@@ -98,10 +98,6 @@ export class Spinner extends EventEmitter {
     return this.#startTime;
   }
 
-  get color() {
-    return this.#color;
-  }
-
   set text(value: string | undefined) {
     if (typeof value == "string") {
       this.#text = value.replaceAll(/\r?\n|\r/gm, "");

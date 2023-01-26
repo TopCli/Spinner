@@ -15,9 +15,10 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "prepublishOnly": "npm run build && pkg-ok",
-    "test": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
+    "test-only": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
+    "test": "npm run lint && npm run coverage",
     "coverage": "c8 -r html npm test",
-    "lint": "cross-env eslint index.js"
+    "lint": "cross-env eslint src/*.ts"
   },
   "repository": {
     "type": "git",
