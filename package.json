@@ -2,13 +2,23 @@
   "name": "@topcli/spinner",
   "version": "1.1.0",
   "description": "Asynchronous CLI Spinner. Allow to create and manage simultaneous/multiple spinners at a time.",
-  "type": "module",
-  "exports": "./index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "prepublishOnly": "pkg-ok",
-    "test": "cross-env esm-tape-runner 'test/**/*.js' | tap-monkey",
-    "coverage": "c8 -r html npm test",
-    "lint": "cross-env eslint index.js"
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "prepublishOnly": "npm run build && pkg-ok",
+    "test-only": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
+    "test": "npm run lint && npm run coverage",
+    "coverage": "c8 -r html npm run test-only",
+    "lint": "cross-env eslint src/*.ts"
   },
   "repository": {
     "type": "git",
@@ -31,9 +41,7 @@
     "progress"
   ],
   "files": [
-    "index.js",
-    "index.d.ts",
-    "src"
+    "dist"
   ],
   "author": "GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>",
   "license": "MIT",
@@ -42,7 +50,6 @@
   },
   "homepage": "https://github.com/TopCli/Spinner#readme",
   "dependencies": {
-    "@slimio/is": "^1.5.0",
     "@topcli/wcwidth": "^1.0.1",
     "ansi-regex": "^6.0.1",
     "cli-cursor": "^4.0.0",
@@ -52,13 +59,15 @@
   },
   "devDependencies": {
     "@nodesecure/eslint-config": "^1.6.0",
-    "@small-tech/esm-tape-runner": "^2.0.0",
-    "@small-tech/tap-monkey": "^1.4.0",
+    "@slimio/is": "^2.0.0",
+    "@types/node": "^18.11.18",
     "c8": "^7.12.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.31.0",
+    "eslint": "^8.32.0",
     "pkg-ok": "^3.0.0",
-    "tape": "^5.6.1"
+    "tsup": "^6.5.0",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4"
   },
   "engines": {
     "node": ">=16"
