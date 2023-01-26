@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "prepublishOnly": "npm run build && pkg-ok",
+    "prepublishOnly": "npm run build",
     "test-only": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
     "test": "npm run lint && npm run coverage",
     "coverage": "c8 -r html npm run test-only",
@@ -64,7 +64,6 @@
     "c8": "^7.12.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.32.0",
-    "pkg-ok": "^3.0.0",
     "tsup": "^6.5.0",
     "tsx": "^3.12.2",
     "typescript": "^4.9.4"
