@@ -18,7 +18,7 @@
     "test-only": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
     "test": "npm run lint && npm run coverage",
     "coverage": "c8 -r html npm run test-only",
-    "lint": "cross-env eslint src/*.ts"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -53,20 +53,19 @@
     "@topcli/wcwidth": "^1.0.1",
     "ansi-regex": "^6.0.1",
     "cli-cursor": "^4.0.0",
-    "cli-spinners": "^2.7.0",
+    "cli-spinners": "^2.8.0",
     "kleur": "^4.1.5",
     "strip-ansi": "^7.0.1"
   },
   "devDependencies": {
-    "@nodesecure/eslint-config": "^1.6.0",
+    "@nodesecure/eslint-config": "^1.7.0",
     "@slimio/is": "^2.0.0",
-    "@types/node": "^18.11.18",
-    "c8": "^7.12.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^8.32.0",
-    "tsup": "^6.5.0",
-    "tsx": "^3.12.2",
-    "typescript": "^4.9.4"
+    "@types/node": "^18.16.1",
+    "c8": "^7.13.0",
+    "eslint": "^8.39.0",
+    "tsup": "^6.7.0",
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.4"
   },
   "engines": {
     "node": ">=16"
