@@ -60,7 +60,7 @@
   "devDependencies": {
     "@nodesecure/eslint-config": "^1.7.0",
     "@slimio/is": "^2.0.0",
-    "@types/node": "^18.16.1",
+    "@types/node": "^20.2.3",
     "c8": "^7.13.0",
     "eslint": "^8.39.0",
     "tsup": "^6.7.0",
