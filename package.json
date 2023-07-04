@@ -53,19 +53,19 @@
     "@topcli/wcwidth": "^1.0.1",
     "ansi-regex": "^6.0.1",
     "cli-cursor": "^4.0.0",
-    "cli-spinners": "^2.8.0",
+    "cli-spinners": "^2.9.0",
     "kleur": "^4.1.5",
-    "strip-ansi": "^7.0.1"
+    "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
     "@nodesecure/eslint-config": "^1.7.0",
     "@slimio/is": "^2.0.0",
-    "@types/node": "^18.16.1",
-    "c8": "^7.13.0",
-    "eslint": "^8.39.0",
-    "tsup": "^6.7.0",
-    "tsx": "^3.12.6",
-    "typescript": "^5.0.4"
+    "@types/node": "^20.3.3",
+    "c8": "^8.0.0",
+    "eslint": "^8.44.0",
+    "tsup": "^7.1.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": ">=16"
