@@ -17,8 +17,8 @@ let internalSpinnerCount = 0;
 // CONSTANTS
 const kDefaultSpinnerName = "dots" satisfies cliSpinners.SpinnerName;
 const kLogSymbols = process.platform !== "win32" || process.env.CI || process.env.TERM === "xterm-256color" ?
-  { success: kleur.green("✔"), error: kleur.red("✖") } :
-  { success: kleur.green("√"), error: kleur.red("×") };
+  { success: kleur.bold().green("✔"), error: kleur.bold().red("✖") } :
+  { success: kleur.bold().green("√"), error: kleur.bold().red("×") };
 
 export interface ISpinnerOptions {
   /**
