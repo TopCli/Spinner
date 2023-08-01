@@ -153,7 +153,7 @@ export class Spinner extends EventEmitter {
     const line = this.#lineToRender(spinnerSymbol);
     readline.clearLine(this.stream, 0);
     this.stream.write(line);
-    readline.moveCursor(this.stream, -line.length, moveCursorPos);
+    readline.moveCursor(this.stream, -(wcwidth(line)), moveCursorPos);
   }
 
   start(text?: string, options: IStartOptions = {}) {
