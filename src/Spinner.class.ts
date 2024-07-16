@@ -5,7 +5,7 @@ import readline from "node:readline";
 import * as TTY from "node:tty";
 
 // Import Third-party Dependencies
-import cliSpinners from "cli-spinners";
+import cliSpinners, { type SpinnerName, type Spinner as CliSpinner } from "cli-spinners";
 import stripAnsi from "strip-ansi";
 import ansiRegex from "ansi-regex";
 import wcwidth from "@topcli/wcwidth";
@@ -15,7 +15,7 @@ import kleur from "kleur";
 let internalSpinnerCount = 0;
 
 // CONSTANTS
-const kDefaultSpinnerName = "dots" satisfies cliSpinners.SpinnerName;
+const kDefaultSpinnerName = "dots" satisfies SpinnerName;
 const kLogSymbols = process.platform !== "win32" || process.env.CI || process.env.TERM === "xterm-256color" ?
   { success: kleur.bold().green("✔"), error: kleur.bold().red("✖") } :
   { success: kleur.bold().green("√"), error: kleur.bold().red("×") };
@@ -26,7 +26,7 @@ export interface ISpinnerOptions {
    *
    * @default "dots"
    */
-  name?: cliSpinners.SpinnerName;
+  name?: SpinnerName;
   /**
    * Spinner frame color
    *
@@ -54,12 +54,12 @@ export class Spinner extends EventEmitter {
 
   #verbose = true;
   #started = false;
-  #spinner: cliSpinners.Spinner;
+  #spinner: CliSpinner;
   #text = "";
   #prefix = "";
   #color: (stdout: string) => string;
 
-  #interval: NodeJS.Timer | null = null;
+  #interval: NodeJS.Timeout | null = null;
   #frameIndex = 0;
   #spinnerPos = 0;
   #startTime: number;

@@ -3,5 +3,9 @@
   "parserOptions": {
     "sourceType": "module",
     "requireConfigFile": false
-  }
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "dist/"
+  ]
 }
