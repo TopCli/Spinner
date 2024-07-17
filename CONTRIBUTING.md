@@ -10,14 +10,14 @@ small and all contributions are valued.
 
 This guide explains the process for contributing to the TopCli project's.
 
-## [Code of Conduct](https://github.com/TopCli/Governance/blob/master/CODE_OF_CONDUCT.md)
+## [Code of Conduct](https://github.com/TopCli/Governance/blob/main/CODE_OF_CONDUCT.md)
 
 The TopCli project has a
-[Code of Conduct](https://github.com/TopCli/Governance/blob/master/CODE_OF_CONDUCT.md)
+[Code of Conduct](https://github.com/TopCli/Governance/blob/main/CODE_OF_CONDUCT.md)
 that *all* contributors are expected to follow. This code describes the
 *minimum* behavior expectations for all contributors.
 
-See [details on our policy on Code of Conduct](https://github.com/TopCli/Governance/blob/master/COC_POLICY.md).
+See [details on our policy on Code of Conduct](https://github.com/TopCli/Governance/blob/main/COC_POLICY.md).
 
 <a id="developers-certificate-of-origin"></a>
 ## Developer's Certificate of Origin 1.1

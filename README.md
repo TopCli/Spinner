@@ -1,10 +1,12 @@
 # Spinner
-![version](https://img.shields.io/badge/dynamic/json.svg?style=for-the-badge&url=https://raw.githubusercontent.com/TopCli/Spinner/master/package.json&query=$.version&label=Version)
+
+![version](https://img.shields.io/badge/dynamic/json.svg?style=for-the-badge&url=https://raw.githubusercontent.com/TopCli/Spinner/main/package.json&query=$.version&label=Version)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=for-the-badge)](https://github.com/TopCli/Spinner/commit-activity)
-[![mit](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/TopCli/Spinner/blob/master/LICENSE)
+[![mit](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/TopCli/Spinner/blob/main/LICENSE)
+[![scorecard](https://api.securityscorecards.dev/projects/github.com/TopCli/Spinner/badge?style=for-the-badge)](https://ossf.github.io/scorecard-visualizer/#/projects/github.com/TopCli/Spinner)
 ![build](https://img.shields.io/github/actions/workflow/status/TopCli/Spinner/node.js.yml?style=for-the-badge)
 
-Asynchronous CLI Spinner. This package has been created to handle simultaneous/multiple spinner at a time. The package has been inspired by [Ora](https://github.com/sindresorhus/ora) but in Asynchronous.
+Asynchronous CLI Spinner. This package has been created to handle simultaneous/multiple spinner at a time. The package has been inspired by [Ora](https://github.com/sindresorhus/ora) but asynchronous.
 
 All available spinners are part of [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) package.
 
@@ -13,7 +15,8 @@ All available spinners are part of [cli-spinners](https://github.com/sindresorhu
 </p>
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) v18 or higher
+
+- [Node.js](https://nodejs.org/en/) v20 or higher
 
 ## Getting Started
 
@@ -26,6 +29,7 @@ $ yarn add @topcli/spinner
 ```
 
 ## Usage example
+
 Create and wait multiple spinner at a time.
 
 ```js
@@ -68,7 +72,8 @@ await timers.setTimeout(1_000);
 spinner.succeed("All done !");
 ```
 
-> 👀 When you are working on a CLI that can be used as an API too, the **verbose** option allow you to disable the Spinner.
+> [!TIP]
+> When you are working on a CLI that can be used as an API too, the **verbose** option allow you to disable the Spinner.
 
 ## API
 
@@ -100,7 +105,8 @@ export interface ISpinnerOptions {
 }
 ```
 
-> 👀 Check [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for all the spinner name.
+> [!TIP]
+> Check [cli-spinners](https://github.com/sindresorhus/cli-spinners#readme) for all the spinner name.
 
 ```js
 new Spinner({ name: "dots2" });
