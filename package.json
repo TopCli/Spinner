@@ -15,10 +15,11 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "prepublishOnly": "npm run build",
-    "test-only": "node --no-warnings --loader tsx --test test/Spinner.spec.ts",
+    "test-only": "tsx --test test/Spinner.spec.ts",
     "test": "npm run lint && npm run coverage",
     "coverage": "c8 -r html npm run test-only",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -51,20 +52,19 @@
   "homepage": "https://github.com/TopCli/Spinner#readme",
   "dependencies": {
     "@topcli/wcwidth": "^1.0.1",
-    "ansi-regex": "^6.0.1",
-    "cli-cursor": "^4.0.0",
-    "cli-spinners": "^2.9.0",
+    "ansi-regex": "^6.1.0",
+    "cli-cursor": "^5.0.0",
+    "cli-spinners": "^3.2.0",
     "kleur": "^4.1.5",
     "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@nodesecure/eslint-config": "^1.7.0",
-    "@slimio/is": "^2.0.0",
-    "@types/node": "^20.3.3",
-    "c8": "^8.0.0",
-    "eslint": "^8.44.0",
-    "tsup": "^7.1.0",
-    "tsx": "^3.12.7",
+    "@openally/config.eslint": "^1.1.0",
+    "@openally/config.typescript": "^1.0.3",
+    "@types/node": "^22.10.2",
+    "c8": "^10.1.3",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
     "typescript": "^5.1.6"
   },
   "engines": {

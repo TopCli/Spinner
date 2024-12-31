@@ -1,19 +1,9 @@
 {
+  "extends": "@openally/config.typescript",
   "compilerOptions": {
-    "declaration": true,
-    "strictNullChecks": true,
-    "target": "ES2021",
     "outDir": "dist",
-    "module": "NodeNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "sourceMap": true,
-    "rootDir": "./src",
-    "types": ["node"]
+    "rootDir": "./",
   },
-  "include": ["src", "src/schema/**/*.json"],
+  "include": ["src", "index.ts"],
   "exclude": ["node_modules", "dist"]
 }

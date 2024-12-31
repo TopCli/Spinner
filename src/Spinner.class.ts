@@ -5,7 +5,7 @@ import readline from "node:readline";
 import * as TTY from "node:tty";
 
 // Import Third-party Dependencies
-import cliSpinners from "cli-spinners";
+import * as cliSpinners from "cli-spinners";
 import stripAnsi from "strip-ansi";
 import ansiRegex from "ansi-regex";
 import wcwidth from "@topcli/wcwidth";
@@ -59,7 +59,7 @@ export class Spinner extends EventEmitter {
   #prefix = "";
   #color: (stdout: string) => string;
 
-  #interval: NodeJS.Timer | null = null;
+  #interval: NodeJS.Timeout | null = null;
   #frameIndex = 0;
   #spinnerPos = 0;
   #startTime: number;
@@ -124,7 +124,7 @@ export class Spinner extends EventEmitter {
     const terminalCol = this.stream.columns;
     const defaultRaw = `${this.#getSpinnerFrame(spinnerSymbol)} ${this.#prefix}${this.text}`;
 
-    let regexArray: any[] = [];
+    let regexArray: any[];
     let count = 0;
     while (1) {
       regexArray = defaultRaw
@@ -135,7 +135,7 @@ export class Spinner extends EventEmitter {
       }
       count = regexArray.length;
     }
-    count += regexArray.reduce((prev, curr) => prev + wcwidth(curr), 0);
+    count += regexArray!.reduce((prev, curr) => prev + wcwidth(curr), 0);
 
     return wcwidth(stripAnsi(defaultRaw)) > terminalCol ?
       `${defaultRaw.slice(0, terminalCol + count)}\x1B[0m` :
