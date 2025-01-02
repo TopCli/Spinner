@@ -5,7 +5,7 @@ import readline from "node:readline";
 import * as TTY from "node:tty";
 
 // Import Third-party Dependencies
-import cliSpinners, { type SpinnerName, type Spinner as CliSpinner } from "cli-spinners";
+import * as cliSpinners from "cli-spinners";
 import stripAnsi from "strip-ansi";
 import ansiRegex from "ansi-regex";
 import wcwidth from "@topcli/wcwidth";
@@ -15,7 +15,7 @@ import kleur from "kleur";
 let internalSpinnerCount = 0;
 
 // CONSTANTS
-const kDefaultSpinnerName = "dots" satisfies SpinnerName;
+const kDefaultSpinnerName = "dots" satisfies cliSpinners.SpinnerName;
 const kLogSymbols = process.platform !== "win32" || process.env.CI || process.env.TERM === "xterm-256color" ?
   { success: kleur.bold().green("✔"), error: kleur.bold().red("✖") } :
   { success: kleur.bold().green("√"), error: kleur.bold().red("×") };
@@ -26,7 +26,7 @@ export interface ISpinnerOptions {
    *
    * @default "dots"
    */
-  name?: SpinnerName;
+  name?: cliSpinners.SpinnerName;
   /**
    * Spinner frame color
    *
@@ -54,7 +54,7 @@ export class Spinner extends EventEmitter {
 
   #verbose = true;
   #started = false;
-  #spinner: CliSpinner;
+  #spinner: cliSpinners.Spinner;
   #text = "";
   #prefix = "";
   #color: (stdout: string) => string;
@@ -124,7 +124,7 @@ export class Spinner extends EventEmitter {
     const terminalCol = this.stream.columns;
     const defaultRaw = `${this.#getSpinnerFrame(spinnerSymbol)} ${this.#prefix}${this.text}`;
 
-    let regexArray: any[] = [];
+    let regexArray: any[];
     let count = 0;
     while (1) {
       regexArray = defaultRaw
@@ -135,7 +135,7 @@ export class Spinner extends EventEmitter {
       }
       count = regexArray.length;
     }
-    count += regexArray.reduce((prev, curr) => prev + wcwidth(curr), 0);
+    count += regexArray!.reduce((prev, curr) => prev + wcwidth(curr), 0);
 
     return wcwidth(stripAnsi(defaultRaw)) > terminalCol ?
       `${defaultRaw.slice(0, terminalCol + count)}\x1B[0m` :

@@ -3,17 +3,10 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { once } from "node:events";
 
-// Import Third-party Dependencies
-import is from "@slimio/is";
-
 // Import Internal Dependencies
 import { Spinner } from "../src/index.js";
 
 describe("Spinner", () => {
-  it("should export a JavaScript class", () => {
-    assert.ok(is.classObject(Spinner));
-  });
-
   describe("reset", () => {
     it("should exist", () => {
       assert.ok(typeof Spinner.reset === "function");

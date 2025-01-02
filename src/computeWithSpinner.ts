@@ -1,5 +1,8 @@
 // Import Internal Dependencies
-import { Spinner, ISpinnerOptions } from "./Spinner.class.js";
+import {
+  Spinner,
+  type ISpinnerOptions
+} from "./Spinner.class.js";
 
 // CONSTANTS
 // eslint-disable-next-line func-style
@@ -31,7 +34,7 @@ export async function computeWithSpinner<T = void>(
 
     return response;
   }
-  catch (err) {
+  catch (err: any) {
     spinner.failed(fail(err));
 
     throw err;
