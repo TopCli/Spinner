@@ -10,3 +10,8 @@ updates:
     versioning-strategy: widen
     schedule:
       interval: weekly
+    groups:
+      dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
