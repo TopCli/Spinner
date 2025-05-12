@@ -1,24 +1,31 @@
 // Import Node.js Dependencies
 import { EventEmitter } from "node:events";
 import { performance } from "node:perf_hooks";
+import { inspect, styleText } from "node:util";
 import readline from "node:readline";
 import * as TTY from "node:tty";
 
 // Import Third-party Dependencies
 import * as cliSpinners from "cli-spinners";
-import stripAnsi from "strip-ansi";
-import ansiRegex from "ansi-regex";
-import wcwidth from "@topcli/wcwidth";
-import kleur from "kleur";
+
+// Import Internal Dependencies
+import {
+  stringLength,
+  type Color
+} from "./utils/index.js";
 
 // VARS
 let internalSpinnerCount = 0;
 
 // CONSTANTS
 const kDefaultSpinnerName = "dots" satisfies cliSpinners.SpinnerName;
+const kAvailableColors = new Set<Color>(
+  Object.keys(inspect.colors) as Color[]
+);
+
 const kLogSymbols = process.platform !== "win32" || process.env.CI || process.env.TERM === "xterm-256color" ?
-  { success: kleur.bold().green("✔"), error: kleur.bold().red("✖") } :
-  { success: kleur.bold().green("√"), error: kleur.bold().red("×") };
+  { success: styleText("green", "✔"), error: styleText("red", "✖") } :
+  { success: styleText("green", "√"), error: styleText("red", "×") };
 
 export interface ISpinnerOptions {
   /**
@@ -32,7 +39,7 @@ export interface ISpinnerOptions {
    *
    * @default "white"
    */
-  color?: string;
+  color?: Color;
   /**
    * Do not log anything when disabled
    *
@@ -73,12 +80,18 @@ export class Spinner extends EventEmitter {
 
     const { name = kDefaultSpinnerName, color = null } = options;
 
-    this.#spinner = name in cliSpinners ? cliSpinners[name] : cliSpinners[kDefaultSpinnerName];
+    this.#spinner = name in cliSpinners ?
+      cliSpinners.default[name] :
+      cliSpinners.default[kDefaultSpinnerName];
     if (color === null) {
       this.#color = (str: string) => str;
     }
     else {
-      this.#color = color in kleur ? kleur[color] : kleur.white;
+      const colorArr = Array.isArray(color) ? color : [color];
+
+      this.#color = colorArr.every((color) => kAvailableColors.has(color)) ?
+        (str) => styleText(color, str) :
+        (str) => styleText("white", str);
     }
   }
 
@@ -135,9 +148,9 @@ export class Spinner extends EventEmitter {
       }
       count = regexArray.length;
     }
-    count += regexArray!.reduce((prev, curr) => prev + wcwidth(curr), 0);
+    count += regexArray!.reduce((prev, curr) => prev + stringLength(curr), 0);
 
-    return wcwidth(stripAnsi(defaultRaw)) > terminalCol ?
+    return stringLength(defaultRaw) > terminalCol ?
       `${defaultRaw.slice(0, terminalCol + count)}\x1B[0m` :
       defaultRaw;
   }
@@ -153,7 +166,7 @@ export class Spinner extends EventEmitter {
     const line = this.#lineToRender(spinnerSymbol);
     readline.clearLine(this.stream, 0);
     this.stream.write(line);
-    readline.moveCursor(this.stream, -(wcwidth(line)), moveCursorPos);
+    readline.moveCursor(this.stream, -(stringLength(line)), moveCursorPos);
   }
 
   start(text?: string, options: IStartOptions = {}) {
@@ -209,4 +222,18 @@ export class Spinner extends EventEmitter {
 
     return this;
   }
+}
+
+/**
+ * @note code copy-pasted from https://github.com/chalk/ansi-regex#readme
+ */
+function ansiRegex() {
+  // Valid string terminator sequences are BEL, ESC\, and 0x9c
+  const ST = "(?:\\u0007|\\u001B\\u005C|\\u009C)";
+  const pattern = [
+    `[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?${ST})`,
+    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))"
+  ].join("|");
+
+  return new RegExp(pattern, "g");
 }

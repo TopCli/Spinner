@@ -3,23 +3,15 @@
   "version": "2.1.2",
   "description": "Asynchronous CLI Spinner. Allow to create and manage simultaneous/multiple spinners at a time.",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
-    }
-  },
+  "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build": "tsc",
     "prepublishOnly": "npm run build",
-    "test-only": "tsx --test test/Spinner.spec.ts",
+    "test-only": "tsx --test test/**.spec.ts",
     "test": "npm run lint && npm run coverage",
     "coverage": "c8 -r html npm run test-only",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint src test"
   },
   "repository": {
     "type": "git",
@@ -46,24 +38,17 @@
   },
   "homepage": "https://github.com/TopCli/Spinner#readme",
   "dependencies": {
-    "@topcli/wcwidth": "^1.0.1",
-    "ansi-regex": "^6.0.1",
-    "cli-cursor": "^5.0.0",
-    "cli-spinners": "^3.1.0",
-    "kleur": "^4.1.5",
-    "strip-ansi": "^7.1.0"
+    "cli-spinners": "^3.1.0"
   },
   "devDependencies": {
     "@openally/config.eslint": "^2.0.0",
     "@openally/config.typescript": "^1.0.3",
     "@types/node": "^22.10.2",
     "c8": "^10.1.2",
-    "tsup": "^8.1.0",
     "tsx": "^4.16.2",
     "typescript": "^5.5.3"
   },
   "engines": {
-    "node": ">=20"
-  },
-  "type": "module"
+    "node": ">=22"
+  }
 }
