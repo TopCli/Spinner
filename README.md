@@ -77,13 +77,13 @@ spinner.succeed("All done !");
 
 ## API
 
-<details><summary>constructor(options?: ISpinnerOptions)</summary>
+<details><summary>constructor(options?: SpinnerOptions)</summary>
 <br>
 
 Create a new Spinner. The **options** payload is described by the following TypeScript interface:
 
 ```ts
-export interface ISpinnerOptions {
+export interface SpinnerOptions {
   /**
    * Spinner name (from cli-spinners lib)
    *
@@ -114,14 +114,14 @@ new Spinner({ name: "dots2" });
 
 </details>
 
-<details><summary>start(text?: string, options?: IStartOptions): Spinner</summary>
+<details><summary>start(text?: string, options?: StartOptions): Spinner</summary>
 
 Start the spinner and optionaly write the text passed as first parameter.
 
 The **options** payload is described by the following TypeScript interface:
 
 ```ts
-export interface IStartOptions {
+export interface StartOptions {
   withPrefix?: string;
 }
 ```

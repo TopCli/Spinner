@@ -1,28 +1,28 @@
 // Import Internal Dependencies
 import {
   Spinner,
-  type ISpinnerOptions
+  type SpinnerOptions
 } from "./Spinner.class.js";
 
 // CONSTANTS
 // eslint-disable-next-line func-style
 const kDefaultSafeLogger = () => undefined;
 
-export interface IComputeSpinnerOptions {
+export interface ComputeSpinnerOptions {
   text: string;
-  spinner?: Omit<ISpinnerOptions, "verbose">;
+  spinner?: Omit<SpinnerOptions, "verbose">;
   withPrefix?: string;
 }
 
-export interface ISpinnerLoggerOptions {
+export interface SpinnerLoggerOptions {
   success?: (elapsedTime: number) => string;
   fail?: (error: Error) => string;
 }
 
 export async function computeWithSpinner<T = void>(
   asynchronousOp: (spinner: Spinner) => Promise<T>,
-  options: IComputeSpinnerOptions,
-  logs: ISpinnerLoggerOptions = {}
+  options: ComputeSpinnerOptions,
+  logs: SpinnerLoggerOptions = {}
 ): Promise<T> {
   const { success = kDefaultSafeLogger, fail = kDefaultSafeLogger } = logs;
   const spinner = new Spinner(options.spinner)

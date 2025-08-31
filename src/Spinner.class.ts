@@ -27,7 +27,7 @@ const kLogSymbols = process.platform !== "win32" || process.env.CI || process.en
   { success: styleText("green", "✔"), error: styleText("red", "✖") } :
   { success: styleText("green", "√"), error: styleText("red", "×") };
 
-export interface ISpinnerOptions {
+export interface SpinnerOptions {
   /**
    * Spinner name (from cli-spinners lib)
    *
@@ -48,7 +48,7 @@ export interface ISpinnerOptions {
   verbose?: boolean;
 }
 
-export interface IStartOptions {
+export interface StartOptions {
   withPrefix?: string;
 }
 
@@ -71,7 +71,7 @@ export class Spinner extends EventEmitter {
   #spinnerPos = 0;
   #startTime: number;
 
-  constructor(options: ISpinnerOptions = {}) {
+  constructor(options: SpinnerOptions = {}) {
     super();
     this.#verbose = options.verbose ?? true;
     if (!this.#verbose) {
@@ -169,7 +169,7 @@ export class Spinner extends EventEmitter {
     readline.moveCursor(this.stream, -(stringLength(line)), moveCursorPos);
   }
 
-  start(text?: string, options: IStartOptions = {}) {
+  start(text?: string, options: StartOptions = {}) {
     this.#started = true;
     this.text = text;
     if (typeof options.withPrefix === "string") {
