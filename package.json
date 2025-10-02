@@ -37,9 +37,6 @@
     "url": "https://github.com/TopCli/Spinner/issues"
   },
   "homepage": "https://github.com/TopCli/Spinner#readme",
-  "dependencies": {
-    "cli-spinners": "^3.1.0"
-  },
   "devDependencies": {
     "@openally/config.eslint": "^2.0.0",
     "@openally/config.typescript": "^1.0.3",
@@ -50,5 +47,8 @@
   },
   "engines": {
     "node": ">=22"
+  },
+  "dependencies": {
+    "cli-spinners": "3.3.0"
   }
 }
