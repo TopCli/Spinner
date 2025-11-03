@@ -80,7 +80,7 @@ export class Spinner extends EventEmitter {
 
     const { name = kDefaultSpinnerName, color = null } = options;
 
-    this.#spinner = name in cliSpinners ?
+    this.#spinner = name in cliSpinners.default ?
       cliSpinners.default[name] :
       cliSpinners.default[kDefaultSpinnerName];
     if (color === null) {
