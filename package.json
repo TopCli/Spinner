@@ -13,6 +13,11 @@
     "coverage": "c8 -r html npm run test-only",
     "lint": "eslint src test"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public",
+    "provenance": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TopCli/Spinner.git"
