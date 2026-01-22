@@ -54,6 +54,6 @@
     "node": ">=22"
   },
   "dependencies": {
-    "cli-spinners": "3.3.0"
+    "cli-spinners": "3.4.0"
   }
 }
