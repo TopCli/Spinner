@@ -27,3 +27,7 @@ jobs:
       - run: npm run build --if-present
       - run: npm test
       - run: npm publish
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ""
+      NPM_CONFIG_PROVENANCE: true
