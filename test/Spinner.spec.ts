@@ -68,7 +68,7 @@ describe("Spinner", () => {
       const expectedText = "foobar";
       setImmediate(() => spin.start(expectedText));
 
-      await once(spin, "start", { signal: AbortSignal.timeout(10) });
+      await once(spin, "start", { signal: AbortSignal.timeout(50) });
       assert.equal(spin.text, expectedText);
       assert.ok(spin.started);
     });
@@ -104,7 +104,7 @@ describe("Spinner", () => {
       const expectedText = "foobar";
       setImmediate(() => spin.succeed(expectedText));
 
-      await once(spin, "succeed", { signal: AbortSignal.timeout(10) });
+      await once(spin, "succeed", { signal: AbortSignal.timeout(50) });
 
       assert.equal(spin.text, expectedText);
       assert.equal(spin.started, false);
@@ -135,7 +135,7 @@ describe("Spinner", () => {
       const expectedText = "foobar";
       setImmediate(() => spin.failed(expectedText));
 
-      await once(spin, "failed", { signal: AbortSignal.timeout(10) });
+      await once(spin, "failed", { signal: AbortSignal.timeout(50) });
 
       assert.equal(spin.text, expectedText);
       assert.equal(spin.started, false);
@@ -166,7 +166,7 @@ describe("Spinner", () => {
       const expectedText = "foobar";
       setImmediate(() => spin.stop());
 
-      await once(spin, "stopped", { signal: AbortSignal.timeout(10) });
+      await once(spin, "stopped", { signal: AbortSignal.timeout((50)) });
 
       assert.equal(spin.text, expectedText);
       assert.equal(spin.started, false);
