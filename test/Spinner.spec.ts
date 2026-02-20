@@ -141,4 +141,35 @@ describe("Spinner", () => {
       assert.equal(spin.started, false);
     });
   });
+
+  describe("stop", () => {
+    it("should do nothing if spinner is not started", () => {
+      let failed = false;
+
+      const spin = new Spinner({ verbose: false });
+      spin.once("stopped", () => (failed = true));
+
+      const expectedText = "not started";
+      spin.text = expectedText;
+
+      const response = spin.stop();
+
+      assert.equal(response, spin);
+      assert.equal(failed, false);
+      assert.equal(spin.text, expectedText);
+    });
+
+    it("should stop the Spinner and keep the text", async() => {
+      const spin = new Spinner({ verbose: false });
+      spin.start("foobar");
+
+      const expectedText = "foobar";
+      setImmediate(() => spin.stop());
+
+      await once(spin, "stopped", { signal: AbortSignal.timeout(10) });
+
+      assert.equal(spin.text, expectedText);
+      assert.equal(spin.started, false);
+    });
+  });
 });
