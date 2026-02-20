@@ -194,15 +194,6 @@ export class Spinner extends EventEmitter {
     return this;
   }
 
-  #stop(text?: string) {
-    this.text = text;
-    this.#started = false;
-
-    if (this.#interval !== null) {
-      clearInterval(this.#interval);
-    }
-  }
-
   succeed(text?: string) {
     if (this.#started) {
       this.#stop(text);
@@ -221,6 +212,31 @@ export class Spinner extends EventEmitter {
     }
 
     return this;
+  }
+
+  stop() {
+    if (this.#started) {
+      this.#stop();
+      this.#clear();
+      this.emit("stopped");
+    }
+
+    return this;
+  }
+
+  #clear() {
+    readline.moveCursor(this.stream, 0, -1);
+    readline.clearLine(this.stream, 0);
+    readline.cursorTo(this.stream, 0);
+  }
+
+  #stop(text?: string) {
+    this.text = text;
+    this.#started = false;
+
+    if (this.#interval !== null) {
+      clearInterval(this.#interval);
+    }
   }
 }
 

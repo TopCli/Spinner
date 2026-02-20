@@ -61,6 +61,20 @@ Spinner.reset(); // reset internal count
 console.log("All spinners finished!");
 ```
 
+If you want to log something while a spinner is spinning, you can do it like this
+
+```js
+const spinner = new Spinner().start("Start working!");
+await timers.setTimeout(1_000);
+spinner.text = "Work in progress...";
+await timers.setTimeout(1_000);
+spinner.stop();
+console.log("intermediate log");
+spinner.start();
+await timers.setTimeout(1_000);
+spinner.succeed("All done !");
+```
+
 If you want to only achieve one Spinner by one Spinner, use it like Ora (it will work)
 ```js
 const spinner = new Spinner().start("Start working!");
@@ -128,15 +142,21 @@ export interface StartOptions {
 
 </details>
 
-<details><summary>succeed(text?: string): void</summary>
+<details><summary>succeed(text?: string): Spinner</summary>
 
 Stop the spinner in the CLI, write the text passed in param and mark it as succeed with a symbol.
 
 </details>
 
-<details><summary>failed(text?: string): void</summary>
+<details><summary>failed(text?: string): Spinner</summary>
 
 Stop the spinner in the CLI, write the text passed in param and mark it as failed with a symbol.
+
+</details>
+
+<details><summary>stop(): Spinner</summary>
+
+Stop the spinner in the CLI, and remove it from the screen.
 
 </details>
 <br>
