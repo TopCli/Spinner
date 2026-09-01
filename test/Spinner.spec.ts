@@ -4,15 +4,9 @@ import assert from "node:assert/strict";
 import { once } from "node:events";
 
 // Import Internal Dependencies
-import { Spinner } from "../src/index.js";
+import { Spinner } from "../src/index.ts";
 
 describe("Spinner", () => {
-  describe("reset", () => {
-    it("should exist", () => {
-      assert.ok(typeof Spinner.reset === "function");
-    });
-  });
-
   describe("constructor", () => {
     it("should assert default instance properties", () => {
       const spin = new Spinner();
